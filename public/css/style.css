@@ -1,0 +1,324 @@
+html, body {
+  overflow-x: hidden;
+}
+
+#load-trigger {
+  height: 1px;
+}
+
+body {
+  margin: 0;
+  background: #080806;
+  color: #e6e8ed;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding: 20px 20px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1001;
+  font-size: 1.35rem;
+  font-family: "Anton", sans-serif;
+  text-shadow: 
+    0px 1px 1px rgb(0 0 0 / 0.1), 
+    0px 1px 2px rgb(0 0 0 / 0.1), 
+    0px 2px 2px rgb(0 0 0 / 0.1);
+}
+
+header a {
+  color: #e6e8ed;
+  font-size: 1.05rem;
+  font-family: "Google Sans Flex", sans-serif;
+  text-decoration: none;
+  display: flex;
+  transition: color 0.7s ease;
+}
+
+header a:hover {
+  color: #e2e4e8;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding: 8px 20px 20px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  font-family: "Google Sans Flex", sans-serif;
+  font-size: 0.8rem;
+  color: #e2e4e8;
+  pointer-events: none; /* so it doesn’t block clicks */
+  z-index: 1000;
+}
+
+.gallery {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  margin: auto;
+  margin-top: 26px;
+}
+
+.masonry-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
+
+.item:hover {
+  z-index: 999;
+}
+
+/* keep elevated during exit transition */
+.item {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  transition: z-index 0s linear 0.35s; /* delay dropping z-index */
+}
+
+.item:hover {
+  z-index: 999;
+  transition-delay: 0s;
+}
+
+.item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  opacity: 0;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transition:
+    transform 0.4s ease,
+    opacity 0.3s ease;
+}
+
+.item img.loaded {
+  opacity: 1;
+}
+
+:root {
+  --hover-zoom: 1.25;
+}
+
+.item:hover img {
+  transform: scale(var(--hover-zoom));
+}
+
+@media (min-width: 1400px) {
+  :root {
+    --hover-zoom: 1.7;
+  }
+}
+
+@media (min-width: 1800px) {
+  :root {
+    --hover-zoom: 2.0;
+  }
+}
+
+@media (min-width: 2100px) {
+  :root {
+    --hover-zoom: 2.5;
+  }
+  header {
+    max-width: 2124px;
+    left: 50%;
+    right: auto;
+    width: 100%;
+    transform: translateX(-50%);
+  }
+  .gallery {
+    max-width: 2100px;
+  }
+}
+
+/* smooth ambient dim layer */
+.item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.0);
+  transition: background 0.4s ease;
+  pointer-events: none;
+}
+
+
+/* smooth fade across entire gallery */
+.gallery:hover .item::after {
+  background: rgba(0,0,0,0.5);
+}
+
+/* remove dim on hovered item */
+.gallery .item:hover::after {
+  background: rgba(0,0,0,0.0);
+}
+
+.top-fade,
+.bottom-fade {
+  position: fixed;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.top-fade {
+  top: 0;
+  height: 85px;
+  z-index: 1000;
+}
+
+.bottom-fade {
+  bottom: 0;
+  height: 30%;
+  z-index: 900;
+}
+
+.top-fade::after,
+.bottom-fade::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #080806;
+}
+
+.top-fade::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #080806;
+  opacity: 0.72;
+
+  /* radial falloff = smoother than linear */
+  mask-image: radial-gradient(
+    120% 80% at 50% 0%,
+    black 0%,
+    rgba(0,0,0,0.85) 25%,
+    rgba(0,0,0,0.55) 45%,
+    rgba(0,0,0,0.25) 65%,
+    rgba(0,0,0,0.12) 78%,
+    rgba(0,0,0,0.05) 88%,
+    rgba(0,0,0,0.02) 94%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    120% 80% at 50% 0%,
+    black 0%,
+    rgba(0,0,0,0.85) 25%,
+    rgba(0,0,0,0.55) 45%,
+    rgba(0,0,0,0.25) 65%,
+    rgba(0,0,0,0.12) 78%,
+    rgba(0,0,0,0.05) 88%,
+    rgba(0,0,0,0.02) 94%,
+    transparent 100%
+  );
+}
+
+.bottom-fade::after {
+  opacity: 0.95;
+
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.02) 12%,
+    rgba(0,0,0,0.06) 24%,
+    rgba(0,0,0,0.14) 38%,
+    rgba(0,0,0,0.32) 55%,
+    rgba(0,0,0,0.58) 72%,
+    rgba(0,0,0,0.82) 88%,
+    black 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.02) 12%,
+    rgba(0,0,0,0.06) 24%,
+    rgba(0,0,0,0.14) 38%,
+    rgba(0,0,0,0.32) 55%,
+    rgba(0,0,0,0.58) 72%,
+    rgba(0,0,0,0.82) 88%,
+    black 100%
+  );
+}
+
+.top-fade::before,
+.bottom-fade::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.35' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  filter: contrast(115%) brightness(380%);
+  mix-blend-mode: soft-light;
+  opacity: 0.014;
+}
+
+.top-fade::before {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.06) 30%,
+    rgba(0,0,0,0.12) 55%,
+    rgba(0,0,0,0.04) 78%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.06) 30%,
+    rgba(0,0,0,0.12) 55%,
+    rgba(0,0,0,0.04) 78%,
+    transparent 100%
+  );
+}
+
+.bottom-fade::before {
+  opacity: 0.045;
+  filter: contrast(135%) brightness(520%);
+  mix-blend-mode: soft-light;
+
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.04) 16%,
+    rgba(0,0,0,0.14) 34%,
+    rgba(0,0,0,0.28) 55%,
+    rgba(0,0,0,0.42) 76%,
+    rgba(0,0,0,0.28) 92%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.04) 16%,
+    rgba(0,0,0,0.14) 34%,
+    rgba(0,0,0,0.28) 55%,
+    rgba(0,0,0,0.42) 76%,
+    rgba(0,0,0,0.28) 92%,
+    transparent 100%
+  );
+}
