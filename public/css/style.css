@@ -63,7 +63,6 @@ header a:hover {
 }
 
 .gallery {
-  padding-bottom: 35vh;
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -80,6 +79,7 @@ header a:hover {
 }
 
 .item {
+  overflow: hidden;
   display: inline-block;
   width: 100%;
   position: relative;
