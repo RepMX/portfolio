@@ -1,6 +1,6 @@
 html, body {
   overflow-x: hidden;
-  overscroll-behavior: none;
+  overscroll-behavior-y: contain;
 }
 
 #load-trigger {
@@ -106,7 +106,6 @@ header a:hover {
 }
 
 .item img {
-  pointer-events: none;
   width: 100%;
   height: auto;
   display: block;
