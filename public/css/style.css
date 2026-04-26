@@ -7,7 +7,6 @@ html, body {
 }
 
 body {
-  overflow-y: auto;
   margin: 0;
   background: #080806;
   color: #e6e8ed;
@@ -64,7 +63,6 @@ header a:hover {
 }
 
 .gallery {
-  overflow: visible;
   display: flex;
   align-items: flex-start;
   gap: 12px;
