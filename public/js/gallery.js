@@ -166,7 +166,8 @@ window.addEventListener('resize', () => {
 
     lastColumnCount = newColumnCount;
 
-    const currentScroll = window.scrollY;
+    const currentScroll = scrollRoot.scrollTop;
+    const scrollRoot = document.getElementById('scroll-root');
 
     await rebuildMasonry();
 
