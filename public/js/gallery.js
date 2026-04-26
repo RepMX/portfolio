@@ -177,10 +177,31 @@ window.addEventListener('resize', () => {
 });
 
 let hoverClone = null;
+let activeItem = null;
+let activeImg = null;
 
-document.addEventListener('mouseenter', e => {
+function getHoveredImage() {
+  const el = document.elementFromPoint(window.mouseX || 0, window.mouseY || 0);
+  return el?.closest?.('.item img') || null;
+}
+
+window.addEventListener('pointermove', e => {
+  window.mouseX = e.clientX;
+  window.mouseY = e.clientY;
+
   const img = e.target.closest('.item img');
-  if (!img) return;
+  if (!img) return clearHoverClone();
+
+  if (img !== activeImg) {
+    activateHoverClone(img);
+  }
+});
+
+function activateHoverClone(img) {
+  clearHoverClone();
+
+  activeImg = img;
+  activeItem = img.closest('.item');
 
   const rect = img.getBoundingClientRect();
 
@@ -191,24 +212,44 @@ document.addEventListener('mouseenter', e => {
   hoverClone.style.top = `${rect.top}px`;
   hoverClone.style.width = `${rect.width}px`;
   hoverClone.style.height = `${rect.height}px`;
+  hoverClone.style.transform = 'scale(1)';
+  hoverClone.style.opacity = '1';
 
   document.body.appendChild(hoverClone);
 
   requestAnimationFrame(() => {
-    hoverClone.style.opacity = '1';
+    activeItem.classList.add('clone-active');
     hoverClone.style.transform = `scale(var(--hover-zoom))`;
   });
-}, true);
+}
 
-document.addEventListener('mouseleave', e => {
-  const img = e.target.closest('.item img');
-  if (!img || !hoverClone) return;
+function clearHoverClone() {
+  if (!hoverClone) return;
 
   const clone = hoverClone;
-  hoverClone = null;
+  const item = activeItem;
 
-  clone.style.opacity = '0';
+  hoverClone = null;
+  activeImg = null;
+  activeItem = null;
+
+  if (item) item.classList.remove('clone-active');
+
   clone.style.transform = 'scale(1)';
+  clone.style.opacity = '0';
 
   setTimeout(() => clone.remove(), 250);
-}, true);
+}
+
+window.addEventListener('scroll', () => {
+  const img = getHoveredImage();
+
+  if (!img) {
+    clearHoverClone();
+    return;
+  }
+
+  if (img !== activeImg) {
+    activateHoverClone(img);
+  }
+}, { passive: true });
