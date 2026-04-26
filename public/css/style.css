@@ -127,7 +127,17 @@ header a:hover {
 }
 
 .item:hover img {
-  transform: scale(var(--hover-zoom));
+  transform: none;
+}
+
+.hover-clone {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  object-fit: contain;
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.2s ease;
+  transform-origin: center center;
 }
 
 @media (min-width: 1400px) {
