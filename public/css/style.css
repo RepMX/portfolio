@@ -63,7 +63,6 @@ header a:hover {
 }
 
 .gallery {
-  padding-bottom: 35vh;
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -127,17 +126,7 @@ header a:hover {
 }
 
 .item:hover img {
-  transform: none;
-}
-
-.hover-clone {
-  position: fixed;
-  z-index: 9999;
-  pointer-events: none;
-  object-fit: contain;
-  opacity: 0;
-  transition: transform 0.35s ease, opacity 0.2s ease;
-  transform-origin: center center;
+  transform: scale(var(--hover-zoom));
 }
 
 @media (min-width: 1400px) {
