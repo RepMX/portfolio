@@ -175,3 +175,40 @@ window.addEventListener('resize', () => {
     });
   }, 250);
 });
+
+let hoverClone = null;
+
+document.addEventListener('mouseenter', e => {
+  const img = e.target.closest('.item img');
+  if (!img) return;
+
+  const rect = img.getBoundingClientRect();
+
+  hoverClone = img.cloneNode();
+  hoverClone.className = 'hover-clone loaded';
+
+  hoverClone.style.left = `${rect.left}px`;
+  hoverClone.style.top = `${rect.top}px`;
+  hoverClone.style.width = `${rect.width}px`;
+  hoverClone.style.height = `${rect.height}px`;
+
+  document.body.appendChild(hoverClone);
+
+  requestAnimationFrame(() => {
+    hoverClone.style.opacity = '1';
+    hoverClone.style.transform = `scale(var(--hover-zoom))`;
+  });
+}, true);
+
+document.addEventListener('mouseleave', e => {
+  const img = e.target.closest('.item img');
+  if (!img || !hoverClone) return;
+
+  const clone = hoverClone;
+  hoverClone = null;
+
+  clone.style.opacity = '0';
+  clone.style.transform = 'scale(1)';
+
+  setTimeout(() => clone.remove(), 250);
+}, true);
