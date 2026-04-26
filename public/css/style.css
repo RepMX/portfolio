@@ -63,6 +63,7 @@ header a:hover {
 }
 
 .gallery {
+  padding-bottom: 35vh;
   display: flex;
   align-items: flex-start;
   gap: 12px;
