@@ -1,6 +1,5 @@
 html, body {
   overflow-x: hidden;
-  overscroll-behavior-y: contain;
 }
 
 #load-trigger {
