@@ -5,11 +5,11 @@ let columns = [];
 let isLoading = false;
 let imageMetaCache = new Map();
 
-const initialBatchSize = 20;
 const batchSize = 10;
 const minColumnWidth = 320;
-const preloadDistance = 300;
+const preloadDistance = 600;
 
+const scrollRoot = document.getElementById('scroll-root');
 const gallery = document.getElementById('gallery');
 const trigger = document.getElementById('load-trigger');
 
@@ -42,7 +42,7 @@ function getShortestColumn() {
 
 function getImageMeta(file) {
   if (imageMetaCache.has(file.id)) {
-    return Promise.resolve(imageMetaCache.get(file));
+    return Promise.resolve(imageMetaCache.get(file.id));
   }
 
   return new Promise(resolve => {
@@ -117,6 +117,15 @@ async function loadMore(count) {
   }
 }
 
+async function loadUntilScreenFilled() {
+  while (
+    loadedCount < allFiles.length &&
+    scrollRoot.scrollHeight < scrollRoot.clientHeight + preloadDistance
+  ) {
+    await loadMore(batchSize);
+  }
+}
+
 async function rebuildMasonry() {
   buildColumns();
   await renderFiles(renderedFiles);
@@ -127,7 +136,9 @@ const observer = new IntersectionObserver(entries => {
     loadMore(batchSize);
   }
 }, {
-  rootMargin: `${preloadDistance}px`
+  root: scrollRoot,
+  rootMargin: `${preloadDistance}px`,
+  threshold: 0
 });
 
 function shuffle(array) {
@@ -143,10 +154,11 @@ function shuffle(array) {
 
 fetch('/api/list-images')
   .then(res => res.json())
-  .then(files => {
+  .then(async files => {
     allFiles = shuffle(files);
     buildColumns();
-    loadMore(initialBatchSize);
+
+    await loadUntilScreenFilled();
 
     if (loadedCount < allFiles.length) {
       observer.observe(trigger);
@@ -167,12 +179,12 @@ window.addEventListener('resize', () => {
     lastColumnCount = newColumnCount;
 
     const currentScroll = scrollRoot.scrollTop;
-    const scrollRoot = document.getElementById('scroll-root');
 
     await rebuildMasonry();
+    await loadUntilScreenFilled();
 
     requestAnimationFrame(() => {
-      window.scrollTo(0, currentScroll);
+      scrollRoot.scrollTo(0, currentScroll);
     });
   }, 250);
 });
