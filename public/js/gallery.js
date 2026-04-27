@@ -117,6 +117,7 @@ async function loadMore(count) {
   renderedFiles.push(...nextFiles);
 
   await renderFiles(nextFiles);
+  updateScrollbarWidth();
 
   isLoading = false;
 
@@ -170,6 +171,14 @@ fetch('/api/list-images')
     buildColumns();
 
     await loadUntilScreenFilled();
+
+    requestAnimationFrame(() => {
+      updateScrollbarWidth();
+
+      requestAnimationFrame(() => {
+        updateScrollbarWidth();
+      });
+    });
 
     if (loadedCount < allFiles.length) {
       observer.observe(trigger);
