@@ -57,7 +57,7 @@ app.get('/api/image', (req, res) => {
     if (!filePath.startsWith(IMAGE_FOLDER + path.sep)) {
       return res.status(403).send('Forbidden');
     }
-
+    res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     res.sendFile(filePath);
   } catch (err) {
     console.error(err);
