@@ -86,19 +86,12 @@ async function createImageItem(file) {
   div.style.aspectRatio = `${meta.width} / ${meta.height}`;
 
   const img = document.createElement('img');
+  img.src = `/api/image?id=${encodeURIComponent(file.id)}`;
+  img.loading = 'lazy';
+  img.decoding = 'async';
 
   img.onload = () => img.classList.add('loaded');
   img.onerror = () => img.classList.add('loaded');
-
-  img.loading = 'eager';
-  img.decoding = 'async';
-  img.fetchPriority = 'high';
-
-  img.src = `/api/image?id=${encodeURIComponent(file.id)}`;
-
-  if (img.complete) {
-    img.classList.add('loaded');
-  }
 
   div.appendChild(img);
   return div;
