@@ -139,6 +139,12 @@ header a:hover {
   transform: scale(var(--hover-zoom));
 }
 
+@media (min-width: 1200px) {
+  :root {
+    --hover-zoom: 1.2;
+  }
+}
+
 @media (min-width: 1400px) {
   :root {
     --hover-zoom: 1.4;
