@@ -147,13 +147,13 @@ header a:hover {
 
 @media (min-width: 1800px) {
   :root {
-    --hover-zoom: 2.0;
+    --hover-zoom: 1.8;
   }
 }
 
 @media (min-width: 2100px) {
   :root {
-    --hover-zoom: 2.5;
+    --hover-zoom: 2.0;
   }
   header {
     max-width: 2124px;
