@@ -87,9 +87,8 @@ async function createImageItem(file) {
 
   const img = document.createElement('img');
   img.src = `/api/image?id=${encodeURIComponent(file.id)}`;
-  img.loading = 'eager';
+  img.loading = 'lazy';
   img.decoding = 'async';
-  img.fetchPriority = 'high';
 
   img.onload = () => img.classList.add('loaded');
   img.onerror = () => img.classList.add('loaded');
