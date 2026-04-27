@@ -141,19 +141,19 @@ header a:hover {
 
 @media (min-width: 1400px) {
   :root {
-    --hover-zoom: 1.5;
+    --hover-zoom: 1.4;
   }
 }
 
 @media (min-width: 1800px) {
   :root {
-    --hover-zoom: 1.55;
+    --hover-zoom: 1.5;
   }
 }
 
 @media (min-width: 2100px) {
   :root {
-    --hover-zoom: 1.7;
+    --hover-zoom: 1.6;
   }
   header {
     max-width: 2124px;
