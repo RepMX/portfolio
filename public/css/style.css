@@ -147,7 +147,7 @@ header a:hover {
 
 @media (min-width: 1800px) {
   :root {
-    --hover-zoom: 1.6;
+    --hover-zoom: 1.55;
   }
 }
 
