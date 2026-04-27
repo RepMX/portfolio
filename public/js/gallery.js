@@ -86,36 +86,11 @@ async function createImageItem(file) {
   div.style.aspectRatio = `${meta.width} / ${meta.height}`;
 
   const img = document.createElement('img');
-
   img.loading = 'eager';
   img.decoding = 'async';
-
-  img.onload = () => {
-    img.classList.add('loaded');
-  };
-
-  img.onerror = () => {
-    img.classList.add('loaded');
-  };
-
-  img.src = `/api/image?id=${encodeURIComponent(file.id)}`;
+  img.dataset.src = `/api/image?id=${encodeURIComponent(file.id)}`;
 
   div.appendChild(img);
-
-  if (img.complete) {
-    requestAnimationFrame(() => {
-      img.classList.add('loaded');
-    });
-  } else {
-    img.decode?.()
-      .then(() => {
-        img.classList.add('loaded');
-      })
-      .catch(() => {
-        img.classList.add('loaded');
-      });
-  }
-
   return div;
 }
 
@@ -124,6 +99,23 @@ async function renderFiles(files) {
 
   items.forEach(item => {
     getShortestColumn().appendChild(item);
+
+    const img = item.querySelector('img');
+
+    img.onload = () => img.classList.add('loaded');
+    img.onerror = () => img.classList.add('loaded');
+
+    requestAnimationFrame(() => {
+      img.src = img.dataset.src;
+
+      img.decode?.()
+        .then(() => img.classList.add('loaded'))
+        .catch(() => img.classList.add('loaded'));
+
+      setTimeout(() => {
+        img.classList.add('loaded');
+      }, 1200);
+    });
   });
 }
 
