@@ -86,14 +86,36 @@ async function createImageItem(file) {
   div.style.aspectRatio = `${meta.width} / ${meta.height}`;
 
   const img = document.createElement('img');
-  img.src = `/api/image?id=${encodeURIComponent(file.id)}`;
-  img.loading = 'lazy';
+
+  img.loading = 'eager';
   img.decoding = 'async';
 
-  img.onload = () => img.classList.add('loaded');
-  img.onerror = () => img.classList.add('loaded');
+  img.onload = () => {
+    img.classList.add('loaded');
+  };
+
+  img.onerror = () => {
+    img.classList.add('loaded');
+  };
+
+  img.src = `/api/image?id=${encodeURIComponent(file.id)}`;
 
   div.appendChild(img);
+
+  if (img.complete) {
+    requestAnimationFrame(() => {
+      img.classList.add('loaded');
+    });
+  } else {
+    img.decode?.()
+      .then(() => {
+        img.classList.add('loaded');
+      })
+      .catch(() => {
+        img.classList.add('loaded');
+      });
+  }
+
   return div;
 }
 
