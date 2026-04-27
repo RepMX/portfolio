@@ -145,11 +145,11 @@ header a:hover {
   }
 }
 
-@media (min-width: 1800px) {
+/* @media (min-width: 1800px) {
   :root {
     --hover-zoom: 1.5;
   }
-}
+} */
 
 @media (min-width: 2100px) {
   :root {
