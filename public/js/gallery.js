@@ -17,7 +17,8 @@ const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 function getColumnCount() {
-  return Math.max(1, Math.floor(gallery.clientWidth / minColumnWidth));
+  const calculatedColumns = Math.floor(gallery.clientWidth / minColumnWidth);
+  return Math.max(1, Math.min(4, calculatedColumns));
 }
 
 function buildColumns() {
