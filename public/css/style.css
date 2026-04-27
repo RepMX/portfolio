@@ -60,7 +60,8 @@ header a:hover {
 .footer {
   position: fixed;
   bottom: 0;
-  left: 0;
+  transform: translateX(-50%);
+  left: calc(50% - (var(--scrollbar-width) / 2));
   box-sizing: border-box;
   padding: 8px 20px 20px;
   display: flex;
