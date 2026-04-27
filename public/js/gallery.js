@@ -16,6 +16,16 @@ const trigger = document.getElementById('load-trigger');
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+function updateScrollbarWidth() {
+  const scrollbarWidth = scrollRoot.offsetWidth - scrollRoot.clientWidth;
+  document.documentElement.style.setProperty(
+    '--scrollbar-width',
+    `${scrollbarWidth}px`
+  );
+}
+
+updateScrollbarWidth();
+
 function getColumnCount() {
   const calculatedColumns = Math.floor(gallery.clientWidth / minColumnWidth);
   return Math.max(1, Math.min(4, calculatedColumns));
@@ -166,6 +176,8 @@ fetch('/api/list-images')
     }
   });
 
+window.addEventListener('load', updateScrollbarWidth);
+
 let resizeTimer;
 let lastColumnCount = 0;
 
@@ -180,6 +192,8 @@ window.addEventListener('resize', () => {
     lastColumnCount = newColumnCount;
 
     const currentScroll = scrollRoot.scrollTop;
+
+    updateScrollbarWidth();
 
     await rebuildMasonry();
     await loadUntilScreenFilled();
