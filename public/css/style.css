@@ -326,7 +326,7 @@ header a:hover {
 }
 
 .bottom-fade::before {
-  opacity: 0.025;
+  opacity: 0.04;
   filter: contrast(120%) brightness(420%);
   mix-blend-mode: soft-light;
 
