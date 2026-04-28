@@ -324,28 +324,30 @@ header a:hover {
 }
 
 .bottom-fade::before {
-  opacity: 0.045;
-  filter: contrast(135%) brightness(520%);
+  opacity: 0.065;
+  filter: contrast(160%) brightness(650%);
   mix-blend-mode: soft-light;
 
   mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(0,0,0,0.04) 16%,
-    rgba(0,0,0,0.14) 34%,
-    rgba(0,0,0,0.28) 55%,
-    rgba(0,0,0,0.42) 76%,
-    rgba(0,0,0,0.28) 92%,
+    rgba(0,0,0,0.05) 10%,
+    rgba(0,0,0,0.18) 24%,
+    rgba(0,0,0,0.36) 42%,
+    rgba(0,0,0,0.55) 62%,
+    rgba(0,0,0,0.48) 82%,
+    rgba(0,0,0,0.18) 96%,
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(0,0,0,0.04) 16%,
-    rgba(0,0,0,0.14) 34%,
-    rgba(0,0,0,0.28) 55%,
-    rgba(0,0,0,0.42) 76%,
-    rgba(0,0,0,0.28) 92%,
+    rgba(0,0,0,0.05) 10%,
+    rgba(0,0,0,0.18) 24%,
+    rgba(0,0,0,0.36) 42%,
+    rgba(0,0,0,0.55) 62%,
+    rgba(0,0,0,0.48) 82%,
+    rgba(0,0,0,0.18) 96%,
     transparent 100%
   );
 }
