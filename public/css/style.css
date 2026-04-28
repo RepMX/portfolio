@@ -267,30 +267,32 @@ header a:hover {
 }
 
 .bottom-fade::after {
-  opacity: 0.95;
+  opacity: 1;
 
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0,0,0,0.02) 12%,
-    rgba(0,0,0,0.06) 24%,
-    rgba(0,0,0,0.14) 38%,
-    rgba(0,0,0,0.32) 55%,
-    rgba(0,0,0,0.58) 72%,
-    rgba(0,0,0,0.82) 88%,
-    black 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0,0,0,0.02) 12%,
-    rgba(0,0,0,0.06) 24%,
-    rgba(0,0,0,0.14) 38%,
-    rgba(0,0,0,0.32) 55%,
-    rgba(0,0,0,0.58) 72%,
-    rgba(0,0,0,0.82) 88%,
-    black 100%
-  );
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(8,8,6,0) 0%,
+      rgba(8,8,6,0.015) 10%,
+      rgba(8,8,6,0.04) 22%,
+      rgba(8,8,6,0.09) 34%,
+      rgba(8,8,6,0.18) 46%,
+      rgba(8,8,6,0.32) 58%,
+      rgba(8,8,6,0.50) 70%,
+      rgba(8,8,6,0.70) 82%,
+      rgba(8,8,6,0.88) 92%,
+      rgba(8,8,6,0.97) 100%
+    ),
+    radial-gradient(
+      120% 70% at 50% 100%,
+      rgba(8,8,6,0.55) 0%,
+      rgba(8,8,6,0.32) 38%,
+      rgba(8,8,6,0.12) 68%,
+      rgba(8,8,6,0) 100%
+    );
+
+  mask-image: none;
+  -webkit-mask-image: none;
 }
 
 .top-fade::before,
@@ -324,30 +326,25 @@ header a:hover {
 }
 
 .bottom-fade::before {
-  opacity: 0.065;
-  filter: contrast(160%) brightness(650%);
+  opacity: 0.025;
+  filter: contrast(120%) brightness(420%);
   mix-blend-mode: soft-light;
 
   mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(0,0,0,0.05) 10%,
-    rgba(0,0,0,0.18) 24%,
-    rgba(0,0,0,0.36) 42%,
-    rgba(0,0,0,0.55) 62%,
-    rgba(0,0,0,0.48) 82%,
-    rgba(0,0,0,0.18) 96%,
+    rgba(0,0,0,0.10) 25%,
+    rgba(0,0,0,0.22) 55%,
+    rgba(0,0,0,0.12) 85%,
     transparent 100%
   );
+
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(0,0,0,0.05) 10%,
-    rgba(0,0,0,0.18) 24%,
-    rgba(0,0,0,0.36) 42%,
-    rgba(0,0,0,0.55) 62%,
-    rgba(0,0,0,0.48) 82%,
-    rgba(0,0,0,0.18) 96%,
+    rgba(0,0,0,0.10) 25%,
+    rgba(0,0,0,0.22) 55%,
+    rgba(0,0,0,0.12) 85%,
     transparent 100%
   );
 }
