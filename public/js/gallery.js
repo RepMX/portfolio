@@ -103,6 +103,7 @@ function initGallery(options = {}) {
     div.style.aspectRatio = `${meta.width} / ${meta.height}`;
 
     const img = document.createElement('img');
+    img.alt = `Photo by Jedy Sukandra`;
     img.loading = 'eager';
     img.decoding = 'async';
     img.dataset.src = imageUrl(file);
