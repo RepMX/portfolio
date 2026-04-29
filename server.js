@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const sharp = require('sharp');
 
 const app = express();
 
@@ -33,9 +34,44 @@ function getImages() {
   return images;
 }
 
-app.get('/api/list-images', (req, res) => {
+async function getAverageColor(filePath) {
   try {
-    res.json(getImages());
+    const { dominant } = await sharp(filePath)
+      .resize(1, 1)
+      .raw()
+      .toBuffer({ resolveWithObject: true })
+      .then(({ data }) => ({
+        dominant: `#${[data[0], data[1], data[2]]
+          .map(v => v.toString(16).padStart(2, '0'))
+          .join('')}`
+      }));
+
+    return dominant;
+  } catch {
+    return '#080806';
+  }
+}
+
+app.get('/api/list-images', async (req, res) => {
+  try {
+    const files = fs.readdirSync(IMAGE_FOLDER)
+      .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file));
+
+    imageMap.clear();
+
+    const images = await Promise.all(files.map(async file => {
+      const id = makeId(file);
+      const filePath = path.join(IMAGE_FOLDER, file);
+
+      imageMap.set(id, file);
+
+      return {
+        id,
+        backgroundColor: await getAverageColor(filePath)
+      };
+    }));
+
+    res.json(images);
   } catch (err) {
     console.error(err);
     res.status(500).send('Error reading folder');
