@@ -101,7 +101,7 @@ function initGallery(options = {}) {
 
     const div = document.createElement('div');
     div.className = 'item';
-    div.style.setProperty('--placeholder-color', file.backgroundColor || '#080806');
+    div.style.backgroundColor = file.backgroundColor || '#080806';
     div.style.aspectRatio = `${meta.width} / ${meta.height}`;
 
     const img = document.createElement('img');
