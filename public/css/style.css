@@ -97,18 +97,8 @@ header a:hover {
   position: relative;
   z-index: 1;
   overflow: visible;
-}
-
-.item:hover {
-  z-index: 999;
-}
-
-.item {
-  display: inline-block;
-  width: 100%;
-  position: relative;
-  z-index: 1;
-  transition: z-index 0s linear 0.35s; /* delay dropping z-index */
+  transition: z-index 0s linear 0.35s;
+  background: transparent !important;
 }
 
 .item:hover {
@@ -181,6 +171,15 @@ header a:hover {
     width: 100%;
     transform: translateX(-50%);
   }
+}
+
+.item::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background: var(--placeholder-color, #080806);
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* smooth ambient dim layer */
