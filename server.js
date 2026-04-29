@@ -9,7 +9,9 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 
 const IMAGE_FOLDER = path.resolve(__dirname, 'private-images');
+
 let imageMap = new Map();
+let cachedImages = [];
 
 function makeId(filename) {
   return crypto
@@ -19,71 +21,51 @@ function makeId(filename) {
     .slice(0, 16);
 }
 
-function getImages() {
-  const files = fs.readdirSync(IMAGE_FOLDER)
-    .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file));
-
-  imageMap = new Map();
-
-  const images = files.map(file => {
-    const id = makeId(file);
-    imageMap.set(id, file);
-    return { id };
-  });
-
-  return images;
-}
-
 async function getAverageColor(filePath) {
   try {
-    const { dominant } = await sharp(filePath)
+    const { data } = await sharp(filePath)
       .resize(1, 1)
       .raw()
-      .toBuffer({ resolveWithObject: true })
-      .then(({ data }) => ({
-        dominant: `#${[data[0], data[1], data[2]]
-          .map(v => v.toString(16).padStart(2, '0'))
-          .join('')}`
-      }));
+      .toBuffer({ resolveWithObject: true });
 
-    return dominant;
+    return `#${[data[0], data[1], data[2]]
+      .map(v => v.toString(16).padStart(2, '0'))
+      .join('')}`;
   } catch {
     return '#080806';
   }
 }
 
-app.get('/api/list-images', async (req, res) => {
-  try {
-    const files = fs.readdirSync(IMAGE_FOLDER)
-      .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file));
+async function buildImageCache() {
+  const files = fs.readdirSync(IMAGE_FOLDER)
+    .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file));
 
-    imageMap.clear();
+  imageMap = new Map();
 
-    const images = await Promise.all(files.map(async file => {
-      const id = makeId(file);
-      const filePath = path.join(IMAGE_FOLDER, file);
+  cachedImages = await Promise.all(files.map(async file => {
+    const id = makeId(file);
+    const filePath = path.join(IMAGE_FOLDER, file);
 
-      imageMap.set(id, file);
+    imageMap.set(id, file);
 
-      return {
-        id,
-        backgroundColor: await getAverageColor(filePath)
-      };
-    }));
+    return {
+      id,
+      backgroundColor: await getAverageColor(filePath)
+    };
+  }));
 
-    res.json(images);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error reading folder');
-  }
+  console.log(`Cached ${cachedImages.length} images`);
+}
+
+app.get('/api/list-images', (req, res) => {
+  res.setHeader('Cache-Control', 'public, max-age=300');
+  res.json(cachedImages);
 });
 
 app.get('/api/image', (req, res) => {
   try {
     const id = req.query.id;
     if (!id) return res.status(400).send('Missing image id');
-
-    if (imageMap.size === 0) getImages();
 
     const file = imageMap.get(id);
     if (!file) return res.status(404).send('Image not found');
@@ -107,21 +89,13 @@ app.get('/preview.jpg', async (req, res) => {
       .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file))
       .sort();
 
-    if (!files.length) {
-      return res.status(404).send('No preview image available');
-    }
+    if (!files.length) return res.status(404).send('No preview image available');
 
     const filePath = path.join(IMAGE_FOLDER, files[0]);
 
     const buffer = await sharp(filePath)
-      .resize(1200, 630, {
-        fit: 'cover',
-        position: 'center'
-      })
-      .jpeg({
-        quality: 82,
-        progressive: true
-      })
+      .resize(1200, 630, { fit: 'cover', position: 'center' })
+      .jpeg({ quality: 82, progressive: true })
       .toBuffer();
 
     res.setHeader('Content-Type', 'image/jpeg');
@@ -133,6 +107,8 @@ app.get('/preview.jpg', async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log('Running at http://localhost:3000');
+buildImageCache().then(() => {
+  app.listen(3000, () => {
+    console.log('Running at http://localhost:3000');
+  });
 });
