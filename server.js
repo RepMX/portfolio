@@ -48,8 +48,12 @@ async function buildImageCache() {
 
     imageMap.set(id, file);
 
+    const metadata = await sharp(filePath).metadata();
+
     return {
       id,
+      width: metadata.width,
+      height: metadata.height,
       backgroundColor: await getAverageColor(filePath)
     };
   }));
