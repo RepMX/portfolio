@@ -69,8 +69,6 @@ function initGallery(options = {}) {
     , columns[0]);
   }
 
-  
-
   async function createImageItem(file) {
     const div = document.createElement('div');
     div.className = 'item';
@@ -78,6 +76,7 @@ function initGallery(options = {}) {
     div.style.aspectRatio = `${file.width} / ${file.height}`;
 
     const img = document.createElement('img');
+    img.fetchPriority = loadedCount < batchSize ? 'high' : 'auto';
     img.alt = 'Photo by Jedy Sukandra';
     img.loading = 'eager';
     img.decoding = 'async';
