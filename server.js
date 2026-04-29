@@ -101,6 +101,38 @@ app.get('/api/image', (req, res) => {
   }
 });
 
+app.get('/preview.jpg', async (req, res) => {
+  try {
+    const files = fs.readdirSync(IMAGE_FOLDER)
+      .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file))
+      .sort();
+
+    if (!files.length) {
+      return res.status(404).send('No preview image available');
+    }
+
+    const filePath = path.join(IMAGE_FOLDER, files[0]);
+
+    const buffer = await sharp(filePath)
+      .resize(1200, 630, {
+        fit: 'cover',
+        position: 'center'
+      })
+      .jpeg({
+        quality: 82,
+        progressive: true
+      })
+      .toBuffer();
+
+    res.setHeader('Content-Type', 'image/jpeg');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.send(buffer);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error generating preview');
+  }
+});
+
 app.listen(3000, () => {
   console.log('Running at http://localhost:3000');
 });
