@@ -176,7 +176,6 @@ header a:hover {
 .item::before {
   content: "";
   position: absolute;
-  inset: -1px;
   background: var(--placeholder-color, #080806);
   z-index: -1;
   pointer-events: none;
