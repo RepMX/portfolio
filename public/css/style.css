@@ -98,7 +98,6 @@ header a:hover {
   z-index: 1;
   overflow: visible;
   transition: z-index 0s linear 0.35s;
-  background: transparent !important;
 }
 
 .item:hover {
