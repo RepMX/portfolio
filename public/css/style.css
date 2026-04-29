@@ -47,7 +47,7 @@ header {
 header a {
   color: #e6e8ed;
   font-size: 1.05rem;
-  font-family: "Google Sans Flex", sans-serif;
+  font-family: "Google Sans", sans-serif;
   text-decoration: none;
   display: flex;
   transition: color 0.7s ease;
@@ -67,7 +67,7 @@ header a:hover {
   display: flex;
   justify-content: center;
   text-align: center;
-  font-family: "Google Sans Flex", sans-serif;
+  font-family: "Google Sans", sans-serif;
   font-size: 0.8rem;
   color: #e2e4e8;
   pointer-events: none;
