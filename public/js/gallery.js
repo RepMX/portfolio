@@ -119,25 +119,30 @@ function initGallery(options = {}) {
 
     items.forEach(item => {
       getShortestColumn().appendChild(item);
-
-      const img = item.querySelector('img');
-
-      img.onload = () => img.classList.add('loaded');
-      img.onerror = () => img.classList.add('loaded');
-      
-      const delay = imageLoadDelayMin + Math.random() * (imageLoadDelayMax - imageLoadDelayMin);
-      
-      setTimeout(() => {
-        img.src = img.dataset.src;
-        img.decode?.()
-          .then(() => img.classList.add('loaded'))
-          .catch(() => img.classList.add('loaded'));
-        setTimeout(() => {
-          img.classList.add('loaded');
-        }, 1200);
-      }, delay);
     });
 
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        items.forEach(item => {
+          const img = item.querySelector('img');
+          img.onload = () => img.classList.add('loaded');
+          img.onerror = () => img.classList.add('loaded');
+          const delay = imageLoadDelayMin + Math.random() * (imageLoadDelayMax - imageLoadDelayMin);
+
+          setTimeout(() => {
+            img.src = img.dataset.src;
+            img.decode?.()
+              .then(() => img.classList.add('loaded'))
+              .catch(() => img.classList.add('loaded'));
+            
+            setTimeout(() => {
+              img.classList.add('loaded');
+            }, 1200);
+          }, delay);
+        });
+      });
+    });
+    
     updateScrollbarWidth();
   }
 
