@@ -69,43 +69,16 @@ function initGallery(options = {}) {
     , columns[0]);
   }
 
-  function getImageMeta(file) {
-    if (imageMetaCache.has(file.id)) {
-      return Promise.resolve(imageMetaCache.get(file.id));
-    }
-
-    return new Promise(resolve => {
-      const probe = new Image();
-      probe.src = imageUrl(file);
-
-      probe.onload = () => {
-        const meta = {
-          width: probe.naturalWidth || 3,
-          height: probe.naturalHeight || 2
-        };
-
-        imageMetaCache.set(file.id, meta);
-        resolve(meta);
-      };
-
-      probe.onerror = () => {
-        const meta = { width: 3, height: 2 };
-        imageMetaCache.set(file.id, meta);
-        resolve(meta);
-      };
-    });
-  }
+  
 
   async function createImageItem(file) {
-    const meta = await getImageMeta(file);
-
     const div = document.createElement('div');
     div.className = 'item';
     div.style.backgroundColor = file.backgroundColor || '#080806';
-    div.style.aspectRatio = `${meta.width} / ${meta.height}`;
+    div.style.aspectRatio = `${file.width} / ${file.height}`;
 
     const img = document.createElement('img');
-    img.alt = `Photo by Jedy Sukandra`;
+    img.alt = 'Photo by Jedy Sukandra';
     img.loading = 'eager';
     img.decoding = 'async';
     img.dataset.src = imageUrl(file);
