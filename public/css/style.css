@@ -193,12 +193,10 @@ header a:hover {
   backface-visibility: hidden;
 }
 
-/* smooth fade across entire gallery */
 .gallery:hover .item::after {
   background: rgba(0,0,0,0.5);
 }
 
-/* remove dim on hovered item */
 .gallery .item:hover::after {
   background: rgba(0,0,0,0.0);
 }
@@ -239,7 +237,6 @@ header a:hover {
   background: #080806;
   opacity: 0.72;
 
-  /* radial falloff = smoother than linear */
   mask-image: radial-gradient(
     120% 80% at 50% 0%,
     black 0%,
