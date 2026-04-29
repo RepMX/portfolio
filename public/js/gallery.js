@@ -8,6 +8,8 @@ function initGallery(options = {}) {
     minColumnWidth = 320,
     maxColumns = 4,
     preloadDistance = 300,
+    imageLoadDelayMin = 40,
+    imageLoadDelayMax = 120,
     listEndpoint = '/api/list-images',
     imageEndpoint = '/api/image'
   } = options;
@@ -122,18 +124,18 @@ function initGallery(options = {}) {
 
       img.onload = () => img.classList.add('loaded');
       img.onerror = () => img.classList.add('loaded');
-
-      requestAnimationFrame(() => {
+      
+      const delay = imageLoadDelayMin + Math.random() * (imageLoadDelayMax - imageLoadDelayMin);
+      
+      setTimeout(() => {
         img.src = img.dataset.src;
-
         img.decode?.()
           .then(() => img.classList.add('loaded'))
           .catch(() => img.classList.add('loaded'));
-
         setTimeout(() => {
           img.classList.add('loaded');
         }, 1200);
-      });
+      }, delay);
     });
 
     updateScrollbarWidth();
