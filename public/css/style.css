@@ -26,7 +26,6 @@ header, .footer {
 }
 
 header {
-  color: #e6e8ed;
   position: fixed;
   top: 0;
   left: 0;
@@ -43,12 +42,14 @@ header {
 }
 
 #page-heading {
+  color: #e6e8ed;
   text-transform:uppercase;
   font-size: 1.35rem;
   font-family: "Anton", Copperplate, fantasy;
 }
 
 header a {
+  color: #e6e8ed;
   font-size: 1.05rem;
   font-family: "Inter", Verdana, sans-serif;
   text-decoration: none;
