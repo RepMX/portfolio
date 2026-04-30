@@ -49,17 +49,17 @@ header {
 }
 
 header a {
-  color: #e6e8ed;
+  color: #e2e4e8;
   font-size: 1.05rem;
   font-weight: 600;
   font-family: "Inter", Verdana, sans-serif;
   text-decoration: none;
   display: flex;
-  transition: color 0.7s ease;
+  transition: color 0.5s ease;
 }
 
 header a:hover {
-  color: #e0e2e6;
+  color: #d2d4d8;
 }
 
 .footer {
