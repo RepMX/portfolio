@@ -37,7 +37,7 @@ header {
   align-items: center;
   z-index: 1001;
   font-size: 1.35rem;
-  font-family: "Anton", sans-serif;
+  font-family: "Anton", Copperplate, fantasy;
   text-shadow: 
     0px 1px 1px rgb(0 0 0 / 0.1), 
     0px 1px 2px rgb(0 0 0 / 0.1), 
@@ -47,7 +47,7 @@ header {
 header a {
   color: #e6e8ed;
   font-size: 1.05rem;
-  font-family: "Google Sans", sans-serif;
+  font-family: "Inter", Verdana, sans-serif;
   text-decoration: none;
   display: flex;
   transition: color 0.7s ease;
@@ -67,7 +67,7 @@ header a:hover {
   display: flex;
   justify-content: center;
   text-align: center;
-  font-family: "Google Sans", sans-serif;
+  font-family: "Inter", Verdana, sans-serif;
   font-size: 0.8rem;
   color: #e2e4e8;
   pointer-events: none;
