@@ -44,6 +44,7 @@ header {
 #page-heading {
   color: #e6e8ed;
   text-transform:uppercase;
+  font-weight: 400;
   font-size: 1.35rem;
   font-family: "Anton", Copperplate, fantasy;
 }
@@ -51,8 +52,8 @@ header {
 header a {
   color: #e2e4e8;
   font-size: 1.05rem;
-  font-weight: 600;
-  font-family: "Inter", Verdana, sans-serif;
+  font-weight: 500;
+  font-family: "DM Sans", Verdana, sans-serif;
   text-decoration: none;
   display: flex;
   transition: color 0.5s ease;
@@ -72,8 +73,9 @@ header a:hover {
   display: flex;
   justify-content: center;
   text-align: center;
-  font-family: "Inter", Verdana, sans-serif;
   font-size: 0.8rem;
+  font-weight: 500;
+  font-family: "DM Sans", Verdana, sans-serif;
   color: #e2e4e8;
   pointer-events: none;
   z-index: 1000;
