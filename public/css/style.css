@@ -50,7 +50,7 @@ header {
 }
 
 header a {
-  color: #e2e2d7;
+  color: #dadad4;
   font-size: 1.05rem;
   font-weight: 500;
   font-family: "DM Sans", Verdana, sans-serif;
@@ -76,7 +76,7 @@ header a:hover {
   font-size: 0.8rem;
   font-weight: 400;
   font-family: "DM Sans", Verdana, sans-serif;
-  color: #e2e2d7;
+  color: #dadad4;
   pointer-events: none;
   z-index: 1000;
   white-space: nowrap;
