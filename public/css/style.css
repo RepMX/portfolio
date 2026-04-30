@@ -51,6 +51,7 @@ header {
 header a {
   color: #e6e8ed;
   font-size: 1.05rem;
+  font-weight: 600;
   font-family: "Inter", Verdana, sans-serif;
   text-decoration: none;
   display: flex;
@@ -58,7 +59,7 @@ header a {
 }
 
 header a:hover {
-  color: #e2e4e8;
+  color: #e0e2e6;
 }
 
 .footer {
