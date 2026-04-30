@@ -42,7 +42,7 @@ header {
 }
 
 #page-heading {
-  color: #e6e8ed;
+  color: #f0f0e7;
   text-transform:uppercase;
   font-weight: 400;
   font-size: 1.35rem;
@@ -50,7 +50,7 @@ header {
 }
 
 header a {
-  color: #e2e4e8;
+  color: #e2e2d7;
   font-size: 1.05rem;
   font-weight: 500;
   font-family: "DM Sans", Verdana, sans-serif;
@@ -60,7 +60,7 @@ header a {
 }
 
 header a:hover {
-  color: #d2d4d8;
+  color: #c5c4bd;
 }
 
 .footer {
@@ -76,7 +76,7 @@ header a:hover {
   font-size: 0.8rem;
   font-weight: 400;
   font-family: "DM Sans", Verdana, sans-serif;
-  color: #e2e4e8;
+  color: #e2e2d7;
   pointer-events: none;
   z-index: 1000;
   white-space: nowrap;
