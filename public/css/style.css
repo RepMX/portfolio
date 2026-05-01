@@ -66,6 +66,7 @@ header {
 .nav-backdrop {
   position: absolute;
   inset: 0;
+  backdrop-filter: blur(1px);
   background: rgba(8, 8, 6, 0.72);
   opacity: 0;
   transition: opacity 0.45s ease;
