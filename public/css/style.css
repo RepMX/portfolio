@@ -183,6 +183,7 @@ header a:hover {
 }
 
 .item::before {
+  inset: -0.5px;
   content: "";
   position: absolute;
   background: var(--placeholder-color, #080806);
