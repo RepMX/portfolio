@@ -41,10 +41,6 @@ header {
     0px 2px 2px rgb(0 0 0 / 0.1);
 }
 
-.site-nav {
-  position: relative;
-}
-
 #page-heading {
   color: #f0f0e7;
   text-transform: uppercase;
@@ -56,60 +52,74 @@ header {
   transition: color 0.45s ease, opacity 0.45s ease;
 }
 
-.site-nav:hover #page-heading,
-.site-nav:focus-within #page-heading {
+#page-heading:hover {
   color: #8f8e88;
 }
 
-.nav-backdrop {
+#nav-overlay {
   position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.nav-backdrop {
+  position: absolute;
   inset: 0;
   background: rgba(8, 8, 6, 0.72);
   opacity: 0;
-  pointer-events: none;
-  z-index: 950;
   transition: opacity 0.45s ease;
 }
 
-.site-nav:hover .nav-backdrop,
-.site-nav:focus-within .nav-backdrop {
-  opacity: 1;
-}
-
 .nav-panel {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: calc(50% - (var(--scrollbar-width) / 2));
   transform: translate(-50%, -44%) scale(0.98);
+
   display: flex;
   gap: 14px;
+
   opacity: 0;
   pointer-events: none;
-  z-index: 1002;
+
   transition:
     opacity 0.45s ease,
     transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.site-nav:hover .nav-panel,
-.site-nav:focus-within .nav-panel {
-  opacity: 1;
+#page-heading:hover ~ #nav-overlay,
+#nav-overlay:hover {
   pointer-events: auto;
+}
+
+#page-heading:hover ~ #nav-overlay .nav-backdrop,
+#nav-overlay:hover .nav-backdrop {
+  opacity: 1;
+}
+
+#page-heading:hover ~ #nav-overlay .nav-panel,
+#nav-overlay:hover .nav-panel {
+  opacity: 1;
   transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
 }
 
 .nav-panel a {
-  font-family: "DM Sans", Verdana, sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: 0.95rem;
   font-weight: 500;
   letter-spacing: 0.02em;
+
   color: #e6e8ed;
   text-decoration: none;
+
   padding: 10px 18px;
   border: 1px solid rgba(230, 232, 237, 0.22);
+
   background: rgba(8, 8, 6, 0.32);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+
   transition:
     color 0.35s ease,
     border-color 0.35s ease,
