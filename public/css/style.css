@@ -107,7 +107,7 @@ body:has(#page-heading:hover) #nav-overlay .nav-panel,
 
 .nav-panel a {
   font-family: "DM Sans", sans-serif;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   font-weight: 500;
   letter-spacing: 0.02em;
 
