@@ -146,7 +146,7 @@ body:has(#page-heading:hover) #nav-overlay .nav-panel,
   }
 }
 header a {
-  color: #dadad4;
+  color: #e5e5df;
   font-size: 1.05rem;
   font-weight: 500;
   font-family: "DM Sans", Verdana, sans-serif;
@@ -172,7 +172,7 @@ header a:hover {
   font-size: 0.8rem;
   font-weight: 400;
   font-family: "DM Sans", Verdana, sans-serif;
-  color: #dadad4;
+  color: #e5e5df;
   pointer-events: none;
   z-index: 1000;
   white-space: nowrap;
