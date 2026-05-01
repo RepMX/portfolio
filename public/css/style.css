@@ -88,17 +88,17 @@ header {
     transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-#page-heading:hover ~ #nav-overlay,
+body:has(#page-heading:hover) #nav-overlay,
 #nav-overlay:hover {
   pointer-events: auto;
 }
 
-#page-heading:hover ~ #nav-overlay .nav-backdrop,
+body:has(#page-heading:hover) #nav-overlay .nav-backdrop,
 #nav-overlay:hover .nav-backdrop {
   opacity: 1;
 }
 
-#page-heading:hover ~ #nav-overlay .nav-panel,
+body:has(#page-heading:hover) #nav-overlay .nav-panel,
 #nav-overlay:hover .nav-panel {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
