@@ -277,6 +277,7 @@ header a:hover {
   }
 }
 
+/*
 .item::before {
   content: "";
   position: absolute;
@@ -285,6 +286,7 @@ header a:hover {
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
+*/
 
 .item::after {
   content: "";
