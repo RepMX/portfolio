@@ -280,7 +280,7 @@ header a:hover {
 .item::before {
   content: "";
   position: absolute;
-  background: var(--placeholder-color, #080806);
+  background: var(--placeholder-color);
   z-index: -1;
   pointer-events: none;
   transition: opacity 0.3s ease;
