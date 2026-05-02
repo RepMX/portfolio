@@ -8,8 +8,8 @@ function initGallery(options = {}) {
     minColumnWidth = 320,
     maxColumns = 4,
     preloadDistance = 300,
-    imageLoadDelayMin = 80,
-    imageLoadDelayMax = 240,
+    imageLoadDelayMin = 20,
+    imageLoadDelayMax = 100,
     listEndpoint = '/api/list-images',
     imageEndpoint = '/api/image'
   } = options;
@@ -72,7 +72,7 @@ function initGallery(options = {}) {
   async function createImageItem(file) {
     const div = document.createElement('div');
     div.className = 'item';
-    div.style.backgroundColor = file.backgroundColor || '#080806';
+    div.style.setProperty('--placeholder-color', file.backgroundColor || '#080806');
     div.style.aspectRatio = `${file.width} / ${file.height}`;
 
     const img = document.createElement('img');
