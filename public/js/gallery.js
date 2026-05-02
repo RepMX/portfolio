@@ -72,7 +72,7 @@ function initGallery(options = {}) {
   async function createImageItem(file) {
     const div = document.createElement('div');
     div.className = 'item';
-    div.style.setProperty('--placeholder-color', file.backgroundColor);
+    div.style.backgroundColor = file.backgroundColor || '#080806';
     div.style.aspectRatio = `${file.width} / ${file.height}`;
 
     const img = document.createElement('img');
