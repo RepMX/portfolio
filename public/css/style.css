@@ -61,7 +61,15 @@ header {
   position: fixed;
   inset: 0;
   pointer-events: none;
+  transition: pointer-events 0s linear 1s;
   z-index: 1000;
+}
+
+.nav-backdrop,
+.nav-panel {
+  transition:
+    opacity 0.45s ease 1s,
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 1s;
 }
 
 .nav-backdrop {
@@ -78,26 +86,27 @@ header {
   top: 50%;
   left: calc(50% - (var(--scrollbar-width) / 2));
   transform: translate(-50%, -44%) scale(0.98);
-
   display: flex;
   gap: 14px;
-
   opacity: 0;
   pointer-events: none;
-
+  transition-delay: 0s;
   transition:
-    opacity 0.45s ease,
-    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.45s ease 1s,
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 1s,
+    pointer-events 0s linear 1s;;
 }
 
 body:has(#page-heading:hover) #nav-overlay,
 #nav-overlay:hover {
   pointer-events: auto;
+  transition-delay: 0s;
 }
 
 body:has(#page-heading:hover) #nav-overlay .nav-backdrop,
 #nav-overlay:hover .nav-backdrop {
   opacity: 1;
+  transition-delay: 0s;
 }
 
 body:has(#page-heading:hover) #nav-overlay .nav-panel,
@@ -105,6 +114,7 @@ body:has(#page-heading:hover) #nav-overlay .nav-panel,
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
   pointer-events: auto;
+  transition-delay: 0s;
 }
 
 .nav-panel a {
