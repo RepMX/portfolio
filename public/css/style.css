@@ -77,13 +77,16 @@ header {
   position: absolute;
   top: 50%;
   left: calc(50% - (var(--scrollbar-width) / 2));
-  transform: translate(-50%, -44%) scale(0.98);
+  transform: translate(-50%, -44%) scale(0.98) translateZ(0);
 
   display: flex;
   gap: 14px;
 
   opacity: 0;
   pointer-events: none;
+
+  will-change: opacity, transform;
+  backface-visibility: hidden;
 
   transition:
     opacity 0.45s ease,
@@ -118,6 +121,11 @@ body.nav-open #nav-overlay .nav-panel {
 
   background: rgba(8, 8, 6, 0.32);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  transform: translateZ(0);
+  will-change: transform, opacity, backdrop-filter;
+  backface-visibility: hidden;
 
   transition:
     color 0.35s ease,
