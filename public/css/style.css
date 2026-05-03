@@ -102,6 +102,7 @@ body.nav-open #nav-overlay .nav-panel {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
   pointer-events: auto;
+  transition-delay: 0.2s;
 }
 
 .nav-panel a {
