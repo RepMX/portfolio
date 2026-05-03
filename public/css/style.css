@@ -67,8 +67,8 @@ header {
 .nav-backdrop {
   position: absolute;
   inset: 0;
-  backdrop-filter: blur(1px);
-  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   background: rgba(8, 8, 6, 0.72);
   opacity: 0;
   transition: opacity 0.45s ease;
@@ -119,8 +119,6 @@ body.nav-open #nav-overlay .nav-panel {
   border: 1px solid rgba(230, 232, 237, 0.22);
 
   background: rgba(8, 8, 6, 0.32);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 
   transition:
     color 0.35s ease,
