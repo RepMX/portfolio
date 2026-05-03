@@ -107,9 +107,6 @@ body.nav-open #nav-overlay .nav-panel {
 }
 
 .nav-panel a {
-  position: relative;
-  overflow: hidden;
-
   font-family: "DM Sans", sans-serif;
   font-size: 1.1rem;
   font-weight: 500;
@@ -121,42 +118,22 @@ body.nav-open #nav-overlay .nav-panel {
   padding: 10px 18px;
   border: 1px solid rgba(230, 232, 237, 0.22);
 
-  background: transparent;
-
-  transition:
-    color 0.35s ease,
-    border-color 0.35s ease,
-    transform 0.35s ease;
-}
-
-.nav-panel a::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-
   background: rgba(8, 8, 6, 0.32);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 
-  opacity: 0.001;
   transition:
-    opacity 0.35s ease,
-    background 0.35s ease;
-}
-
-body.nav-open .nav-panel a::before {
-  opacity: 1;
+    color 0.35s ease,
+    border-color 0.35s ease,
+    background 0.35s ease,
+    transform 0.35s ease;
 }
 
 .nav-panel a:hover {
   color: #ffffff;
   border-color: rgba(230, 232, 237, 0.55);
-  transform: translateY(-2px);
-}
-
-.nav-panel a:hover::before {
   background: rgba(230, 232, 237, 0.08);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 700px) {
