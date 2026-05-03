@@ -68,6 +68,7 @@ header {
   position: absolute;
   inset: 0;
   backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
   background: rgba(8, 8, 6, 0.72);
   opacity: 0;
   transition: opacity 0.45s ease;
@@ -102,7 +103,6 @@ body.nav-open #nav-overlay .nav-panel {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
   pointer-events: auto;
-  transition-delay: 2s;
 }
 
 .nav-panel a {
@@ -117,14 +117,26 @@ body.nav-open #nav-overlay .nav-panel {
   padding: 10px 18px;
   border: 1px solid rgba(230, 232, 237, 0.22);
 
+  position: relative;
+  overflow: hidden;
+
   background: rgba(8, 8, 6, 0.32);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
 
   transition:
     color 0.35s ease,
     border-color 0.35s ease,
     background 0.35s ease,
     transform 0.35s ease;
+}
+
+.nav-panel a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(230, 232, 237, 0.035);
+  pointer-events: none;
 }
 
 .nav-panel a:hover {
