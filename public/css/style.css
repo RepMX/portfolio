@@ -121,8 +121,8 @@ body.nav-open #nav-overlay .nav-panel {
   overflow: hidden;
 
   background: rgba(8, 8, 6, 0.32);
-  backdrop-filter: blur(18px) saturate(120%);
-  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 
   transition:
     color 0.35s ease,
