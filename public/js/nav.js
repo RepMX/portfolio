@@ -1,6 +1,9 @@
 const pageHeading = document.getElementById('page-heading');
 const navOverlay = document.getElementById('nav-overlay');
 
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
+
 let navCloseTimer;
 
 function openNav() {
