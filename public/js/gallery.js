@@ -72,7 +72,7 @@ function initGallery(options = {}) {
   async function createImageItem(file) {
     const div = document.createElement('div');
     div.className = 'item';
-    div.style.backgroundColor = file.backgroundColor || '#080806';
+    div.style.bgColor = file.bgColor || '#080806';
     div.style.aspectRatio = `${file.width} / ${file.height}`;
 
     const img = document.createElement('img');
@@ -112,7 +112,7 @@ function initGallery(options = {}) {
             }, 1000);
 
             setTimeout(() => {
-              item.style.backgroundColor = '#080806';
+              item.style.bgColor = '#080806';
             }, 200);
           }, delay);
         });
