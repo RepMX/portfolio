@@ -3,7 +3,6 @@ function initGallery(options = {}) {
     galleryId = 'gallery',
     scrollRootId = 'scroll-root',
     triggerId = 'load-trigger',
-    yearId = 'year',
     batchSize = 10,
     minColumnWidth = 320,
     maxColumns = 4,
