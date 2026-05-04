@@ -6,7 +6,56 @@ const sharp = require('sharp');
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
+const PUBLIC_FOLDER = path.join(__dirname, 'public');
+
+function getStaticPages() {
+  const pages = [
+    {
+      url: 'https://jedy.cc/',
+      priority: '1.0',
+      changefreq: 'weekly'
+    }
+  ];
+
+  const entries = fs.readdirSync(PUBLIC_FOLDER, { withFileTypes: true });
+
+  entries.forEach(entry => {
+    if (!entry.isDirectory()) return;
+
+    const indexPath = path.join(PUBLIC_FOLDER, entry.name, 'index.html');
+
+    if (!fs.existsSync(indexPath)) return;
+
+    pages.push({
+      url: `https://jedy.cc/${entry.name}/`,
+      priority: '0.8',
+      changefreq: 'monthly'
+    });
+  });
+
+  return pages;
+}
+
+app.get('/sitemap.xml', (req, res) => {
+  const pages = getStaticPages();
+  const lastmod = new Date().toISOString().split('T')[0];
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+${pages.map(page => `  <url>
+    <loc>${page.url}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
+  </url>`).join('\n')}
+</urlset>`;
+
+  res.setHeader('Content-Type', 'application/xml');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
+  res.send(xml);
+});
+
+app.use(express.static(PUBLIC_FOLDER));
 
 const IMAGE_FOLDER = path.resolve(__dirname, 'private-images');
 
