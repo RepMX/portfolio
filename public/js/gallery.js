@@ -123,7 +123,7 @@ function initGallery(options = {}) {
 
             setTimeout(() => {
               item.style.backgroundColor = '#080806';
-            }, 500);
+            }, 1000);
           }, delay);
         });
       });
