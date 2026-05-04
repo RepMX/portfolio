@@ -119,11 +119,11 @@ function initGallery(options = {}) {
 
             setTimeout(() => {
               img.classList.add('loaded');
-            }, 200);
+            }, 100);
 
             setTimeout(() => {
               item.style.backgroundColor = '#080806';
-            }, 400);
+            }, 500);
           }, delay);
         });
       });
