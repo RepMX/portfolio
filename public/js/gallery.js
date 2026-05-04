@@ -102,6 +102,7 @@ function initGallery(options = {}) {
           const delay = imageLoadDelayMin + Math.random() * (imageLoadDelayMax - imageLoadDelayMin);
 
           setTimeout(() => {
+            item.style.backgroundColor = '#080806';
             img.src = img.dataset.src;
             img.decode?.()
               .then(() => img.classList.add('loaded'))
