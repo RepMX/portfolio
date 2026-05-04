@@ -57,6 +57,37 @@ header {
   color: #c5c4bd;
 }
 
+.page-content {
+  min-height: 100dvh;
+  box-sizing: border-box;
+  padding: 120px 20px 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e5e5df;
+}
+
+.page-section {
+  max-width: 720px;
+  text-align: center;
+  font-family: "DM Sans", Verdana, sans-serif;
+}
+
+.page-section h1 {
+  margin: 0 0 18px;
+  font-family: "Anton", Copperplate, fantasy;
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.page-section p {
+  margin: 0;
+  font-size: 1rem;
+  color: #c5c4bd;
+}
+
 #nav-overlay {
   position: fixed;
   inset: 0;
@@ -139,12 +170,12 @@ body.nav-open #nav-overlay .nav-panel {
     flex-direction: column;
     gap: 10px;
   }
-
   .nav-panel a {
     min-width: 160px;
     text-align: center;
   }
 }
+
 header a {
   color: #e5e5df;
   font-size: 1.05rem;
