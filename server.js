@@ -10,6 +10,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const IMAGE_FOLDER = path.resolve(__dirname, 'private-images');
 
+let rebuildTimer;
+let isRebuilding = false;
 let imageMap = new Map();
 let cachedImages = [];
 
@@ -59,6 +61,25 @@ async function buildImageCache() {
   }));
 
   console.log(`Cached ${cachedImages.length} images`);
+}
+
+function scheduleImageCacheRebuild() {
+  clearTimeout(rebuildTimer);
+
+  rebuildTimer = setTimeout(async () => {
+    if (isRebuilding) return;
+
+    try {
+      isRebuilding = true;
+      console.log('Private image folder changed. Rebuilding image cache...');
+      await buildImageCache();
+      console.log('Image cache rebuilt.');
+    } catch (err) {
+      console.error('Failed to rebuild image cache:', err);
+    } finally {
+      isRebuilding = false;
+    }
+  }, 800);
 }
 
 app.get('/api/list-images', (req, res) => {
@@ -112,6 +133,11 @@ app.get('/preview.jpg', async (req, res) => {
 });
 
 buildImageCache().then(() => {
+  fs.watch(IMAGE_FOLDER, (eventType, filename) => {
+    if (!filename) return;
+    if (!/\.(jpg|jpeg|png|webp)$/i.test(filename)) return;
+    scheduleImageCacheRebuild();
+  });
   app.listen(3000, () => {
     console.log('Running at http://localhost:3000');
   });
