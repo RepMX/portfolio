@@ -91,10 +91,6 @@ header {
     transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-body.nav-open .footer {
-  z-index: 1001;
-}
-
 body.nav-open #nav-overlay {
   pointer-events: auto;
 }
@@ -178,7 +174,7 @@ header a:hover {
   font-family: "DM Sans", Verdana, sans-serif;
   color: #e5e5df;
   pointer-events: none;
-  z-index: 1000;
+  z-index: 1001;
   white-space: nowrap;
 }
 
