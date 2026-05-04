@@ -94,6 +94,11 @@ header {
   color: #c5c4bd;
 }
 
+.page-section a {
+  color: #c5c4bd;
+  text-decoration: underline;
+}
+
 #nav-overlay {
   position: fixed;
   inset: 0;
