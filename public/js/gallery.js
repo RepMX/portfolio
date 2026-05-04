@@ -35,6 +35,7 @@ function initGallery(options = {}) {
     if (!scrollRoot) return;
 
     const scrollbarWidth = scrollRoot.offsetWidth - scrollRoot.clientWidth;
+
     document.documentElement.style.setProperty(
       '--scrollbar-width',
       `${scrollbarWidth}px`
@@ -43,6 +44,7 @@ function initGallery(options = {}) {
 
   function getColumnCount() {
     const calculatedColumns = Math.floor(gallery.clientWidth / minColumnWidth);
+
     return Math.max(1, Math.min(maxColumns, calculatedColumns));
   }
 
@@ -54,25 +56,31 @@ function initGallery(options = {}) {
 
     for (let i = 0; i < count; i++) {
       const col = document.createElement('div');
+
       col.className = 'masonry-column';
+
       gallery.appendChild(col);
       columns.push(col);
     }
   }
 
   function getShortestColumn() {
-    return columns.reduce((shortest, col) =>
-      col.offsetHeight < shortest.offsetHeight ? col : shortest
-    , columns[0]);
+    return columns.reduce(
+      (shortest, col) =>
+        col.offsetHeight < shortest.offsetHeight ? col : shortest,
+      columns[0]
+    );
   }
 
   async function createImageItem(file) {
     const div = document.createElement('div');
+
     div.className = 'item';
     div.style.backgroundColor = file.bgColor || '#080806';
     div.style.aspectRatio = `${file.width} / ${file.height}`;
 
     const img = document.createElement('img');
+
     img.fetchPriority = loadedCount < batchSize ? 'high' : 'auto';
     img.alt = 'Photo by Jedy Sukandra';
     img.loading = 'eager';
@@ -80,6 +88,7 @@ function initGallery(options = {}) {
     img.dataset.src = imageUrl(file);
 
     div.appendChild(img);
+
     return div;
   }
 
@@ -94,12 +103,17 @@ function initGallery(options = {}) {
       requestAnimationFrame(() => {
         items.forEach(item => {
           const img = item.querySelector('img');
+
           img.onload = () => img.classList.add('loaded');
           img.onerror = () => img.classList.add('loaded');
-          const delay = imageLoadDelayMin + Math.random() * (imageLoadDelayMax - imageLoadDelayMin);
+
+          const delay =
+            imageLoadDelayMin +
+            Math.random() * (imageLoadDelayMax - imageLoadDelayMin);
 
           setTimeout(() => {
             img.src = img.dataset.src;
+
             img.decode?.()
               .then(() => img.classList.add('loaded'))
               .catch(() => img.classList.add('loaded'));
@@ -115,7 +129,7 @@ function initGallery(options = {}) {
         });
       });
     });
-    
+
     updateScrollbarWidth();
   }
 
@@ -160,21 +174,25 @@ function initGallery(options = {}) {
     await renderFiles(renderedFiles);
   }
 
-  const observer = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) {
-      loadMore(batchSize);
+  const observer = new IntersectionObserver(
+    entries => {
+      if (entries[0].isIntersecting) {
+        loadMore(batchSize);
+      }
+    },
+    {
+      root: scrollRoot || null,
+      rootMargin: `${preloadDistance}px`,
+      threshold: 0
     }
-  }, {
-    root: scrollRoot || null,
-    rootMargin: `${preloadDistance}px`,
-    threshold: 0
-  });
+  );
 
   function shuffle(array) {
     const shuffled = [...array];
 
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
+
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
 
@@ -185,6 +203,7 @@ function initGallery(options = {}) {
     .then(res => res.json())
     .then(async files => {
       allFiles = shuffle(files);
+
       buildColumns();
 
       await loadUntilScreenFilled();
@@ -211,6 +230,7 @@ function initGallery(options = {}) {
       updateScrollbarWidth();
 
       const newColumnCount = getColumnCount();
+
       if (newColumnCount === lastColumnCount) return;
 
       lastColumnCount = newColumnCount;
