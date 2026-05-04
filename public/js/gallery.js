@@ -102,15 +102,18 @@ function initGallery(options = {}) {
           const delay = imageLoadDelayMin + Math.random() * (imageLoadDelayMax - imageLoadDelayMin);
 
           setTimeout(() => {
-            item.style.backgroundColor = '#080806';
             img.src = img.dataset.src;
             img.decode?.()
               .then(() => img.classList.add('loaded'))
               .catch(() => img.classList.add('loaded'));
-            
+
             setTimeout(() => {
               img.classList.add('loaded');
-            }, 1200);
+            }, 1000);
+
+            setTimeout(() => {
+              item.style.backgroundColor = '#080806';
+            }, 2000);
           }, delay);
         });
       });
