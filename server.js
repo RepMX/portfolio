@@ -56,7 +56,7 @@ async function buildImageCache() {
       id,
       width: metadata.width,
       height: metadata.height,
-      backgroundColor: await getAverageColor(filePath)
+      bgColor: await getAverageColor(filePath)
     };
   }));
 
