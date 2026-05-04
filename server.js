@@ -181,6 +181,10 @@ app.get('/preview.jpg', async (req, res) => {
   }
 });
 
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(PUBLIC_FOLDER, '404', 'index.html'));
+});
+
 buildImageCache().then(() => {
   fs.watch(IMAGE_FOLDER, (eventType, filename) => {
     if (!filename) return;

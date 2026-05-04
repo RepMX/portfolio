@@ -101,6 +101,12 @@ header {
 .page-section a {
   color: #c5c4bd;
   text-decoration: underline;
+  transition: 
+    color 0.35s ease;
+}
+
+.page-section a:hover {
+  color: #afaea8;
 }
 
 #nav-overlay {
