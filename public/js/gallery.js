@@ -27,9 +27,6 @@ function initGallery(options = {}) {
 
   if (!gallery || !trigger) return;
 
-  const yearEl = document.getElementById(yearId);
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
-
   function imageUrl(file) {
     return `${imageEndpoint}?id=${encodeURIComponent(file.id)}`;
   }
