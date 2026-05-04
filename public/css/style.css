@@ -246,7 +246,9 @@ header a:hover {
   position: relative;
   z-index: 1;
   overflow: visible;
-  transition: z-index 0s linear 0.35s;
+  transition: 
+    z-index 0s linear 0.35s,
+    background-color 0.8s ease;
 }
 
 .item:hover {
