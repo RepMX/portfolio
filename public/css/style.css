@@ -10,6 +10,12 @@ html, body {
   position: relative;
   overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#scroll-root::-webkit-scrollbar {
+  display: none;
 }
 
 #load-trigger {
