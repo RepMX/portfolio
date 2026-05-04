@@ -91,6 +91,10 @@ header {
     transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+body.nav-open .footer {
+  z-index: 1001;
+}
+
 body.nav-open #nav-overlay {
   pointer-events: auto;
 }
