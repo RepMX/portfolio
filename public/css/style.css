@@ -94,6 +94,10 @@ header {
   color: #c5c4bd;
 }
 
+.page-section p + p {
+  margin-top: 1rem;
+}
+
 .page-section a {
   color: #c5c4bd;
   text-decoration: underline;
