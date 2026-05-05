@@ -64,6 +64,10 @@ header {
 }
 
 .page-content {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   min-height: 100dvh;
   box-sizing: border-box;
   padding: 100px 20px 90px;
