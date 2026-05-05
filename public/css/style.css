@@ -83,6 +83,9 @@ header {
   .page-content {
     padding: 100px 28px 90px;
   }
+  .page-section {
+    max-width: 330px;
+  }
 }
 
 .page-section {
