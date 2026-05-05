@@ -23,12 +23,11 @@ if (pageHeading && navOverlay) {
   pageHeading.addEventListener('pointerenter', openNav);
   
   pageHeading.addEventListener('click', event => {
-    event.preventDefault();
     if (document.body.classList.contains('nav-open')) {
-      window.location.href = '/';
-    } else {
-      openNav();
+      return;
     }
+    event.preventDefault();
+    openNav();
   });
 
   pageHeading.addEventListener('pointerleave', () => {
