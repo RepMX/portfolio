@@ -20,7 +20,10 @@ function closeNav(delay = 180) {
 }
 
 if (pageHeading && navOverlay) {
-  pageHeading.addEventListener('pointerenter', openNav);
+  pageHeading.addEventListener('pointerenter', event => {
+    if (event.pointerType === 'touch') return;
+    openNav();
+  });
   
   pageHeading.addEventListener('click', event => {
     if (document.body.classList.contains('nav-open')) {
