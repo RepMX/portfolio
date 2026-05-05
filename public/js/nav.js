@@ -4,6 +4,8 @@ const navOverlay = document.getElementById('nav-overlay');
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
 let navCloseTimer;
 
 function openNav() {
@@ -19,27 +21,37 @@ function closeNav(delay = 180) {
   }, delay);
 }
 
+function goHome() {
+  if (window.location.pathname === '/') {
+    window.location.reload();
+  } else {
+    window.location.href = '/';
+  }
+}
+
 if (pageHeading && navOverlay) {
-  pageHeading.addEventListener('pointerenter', event => {
-    if (event.pointerType === 'touch') return;
-    openNav();
-  });
-  
+  if (canHover) {
+    pageHeading.addEventListener('pointerenter', openNav);
+
+    pageHeading.addEventListener('pointerleave', () => {
+      closeNav(220);
+    });
+
+    navOverlay.addEventListener('pointerenter', openNav);
+
+    navOverlay.addEventListener('pointerleave', () => {
+      closeNav(220);
+    });
+  }
+
   pageHeading.addEventListener('click', event => {
-    if (document.body.classList.contains('nav-open')) {
-      return;
-    }
     event.preventDefault();
-    openNav();
-  });
 
-  pageHeading.addEventListener('pointerleave', () => {
-    closeNav(220);
-  });
-
-  navOverlay.addEventListener('pointerenter', openNav);
-  navOverlay.addEventListener('pointerleave', () => {
-    closeNav(220);
+    if (document.body.classList.contains('nav-open')) {
+      goHome();
+    } else {
+      openNav();
+    }
   });
 
   navOverlay.addEventListener('click', event => {
