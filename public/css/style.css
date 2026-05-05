@@ -120,9 +120,7 @@ header {
   left: 0;
   background-color: #c5c4bd;
   transform: scaleX(.8);
-  transition: 
-    transform 0.3s ease,
-    background-color 0.35 ease;
+  transition: all 0.35s ease;
 }
 
 .page-section a:hover::before {
