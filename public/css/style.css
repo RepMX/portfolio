@@ -125,7 +125,7 @@ header {
 
 .page-section a:hover::before {
   transform: scaleX(1);
-  background-color: #8b897f;
+  background-color: #979690;
 }
 
 #nav-overlay {
