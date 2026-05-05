@@ -74,6 +74,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
   color: #e5e5df;
 }
 
