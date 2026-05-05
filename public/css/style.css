@@ -79,6 +79,12 @@ header {
   color: #e5e5df;
 }
 
+@media (max-width: 700px) {
+  .page-content {
+    padding: 100px 28px 90px;
+  }
+}
+
 .page-section {
   max-width: 720px;
   text-align: center;
