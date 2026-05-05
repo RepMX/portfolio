@@ -119,13 +119,13 @@ header {
   bottom: 0;
   left: 0;
   background-color: #c5c4bd;
-  transform: scaleX(.8);
+  transform: scaleX(.93);
   transition: all 0.35s ease;
 }
 
 .page-section a:hover::before {
   transform: scaleX(1);
-  background-color: #afaea8;
+  background-color: #8b897f;
 }
 
 #nav-overlay {
