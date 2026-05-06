@@ -32,15 +32,24 @@
       margin-top: 1.05rem;
     }
     .about-logo-strip{
-      margin-top: 1.05rem;
+      margin-top: 1.2rem;
       width: stretch;
       align-items: center;
+      opacity: 0;
+      transform: translateY(4px);
+      transition:
+        opacity 0.5s ease,
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .about-logo-strip.logos-loaded {
+      opacity: 0.65;
+      transform: translateY(0);
     }
     .about-logo-strip img {
       padding: 10px;
       max-height: 22px;
       object-fit: contain;
-      opacity: 0.55;
+      opacity: 0.65;
       filter: grayscale(1) brightness(1.6);
     }
     .about-logo-strip img.logo-invert {
@@ -113,5 +122,26 @@
 <footer class="footer">
   <span>© <span id="year">2026</span> Jedy Sukandra | all rights reserved</span>
 </footer>
+<script>
+  const logoStrip = document.querySelector('.about-logo-strip');
+  const logos = document.querySelectorAll('.about-logo-strip img');
+
+  if (logoStrip && logos.length) {
+    const logoPromises = [...logos].map(logo => {
+      if (logo.complete) return Promise.resolve();
+
+      return new Promise(resolve => {
+        logo.addEventListener('load', resolve, { once: true });
+        logo.addEventListener('error', resolve, { once: true });
+      });
+    });
+
+    Promise.all(logoPromises).then(() => {
+      requestAnimationFrame(() => {
+        logoStrip.classList.add('logos-loaded');
+      });
+    });
+  }
+</script>
 </body>
 </html>
