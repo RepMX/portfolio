@@ -1,4 +1,1 @@
-User-agent: *
-Disallow: /api/
-
 Sitemap: https://jedy.cc/sitemap.xml
