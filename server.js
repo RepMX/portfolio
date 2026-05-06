@@ -123,7 +123,7 @@ async function buildImageCache() {
   console.log(`Cached ${cachedImages.length} images`);
 }
 
-async function buildLogoCache() {
+function buildLogoCache() {
   if (!fs.existsSync(LOGO_FOLDER)) {
     console.warn('No private-logos folder found');
     return;
@@ -249,7 +249,7 @@ app.use((req, res) => {
 });
 
 buildImageCache().then(() => {
-  await buildLogoCache();
+  buildLogoCache();
   fs.watch(IMAGE_FOLDER, (eventType, filename) => {
     if (!filename) return;
     if (!/\.(jpg|jpeg|png|webp)$/i.test(filename)) return;
