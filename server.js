@@ -58,6 +58,17 @@ ${pages.map(page => `  <url>
 app.use(express.static(PUBLIC_FOLDER));
 
 const IMAGE_FOLDER = path.resolve(__dirname, 'private-images');
+const LOGO_FOLDER = path.resolve(__dirname, 'private-logos');
+
+const logoAliases = {
+  netflix: 'netflix.png',
+  disneyplus: 'disneyplus.png',
+  appletv: 'appletv.png',
+  foodnetwork: 'foodnetwork.png'
+};
+
+let logoMap = new Map();
+let logoAliasMap = new Map();
 
 let rebuildTimer;
 let isRebuilding = false;
@@ -110,6 +121,29 @@ async function buildImageCache() {
   }));
 
   console.log(`Cached ${cachedImages.length} images`);
+}
+
+async function buildLogoCache() {
+  if (!fs.existsSync(LOGO_FOLDER)) {
+    console.warn('No private-logos folder found');
+    return;
+  }
+
+  logoMap = new Map();
+  logoAliasMap = new Map();
+
+  Object.entries(logoAliases).forEach(([alias, file]) => {
+    const filePath = path.join(LOGO_FOLDER, file);
+    if (!fs.existsSync(filePath)) {
+      console.warn(`Logo file missing: ${file}`);
+      return;
+    }
+    const id = makeId(file);
+    logoMap.set(id, file);
+    logoAliasMap.set(alias, id);
+  });
+
+  console.log(`Cached ${logoMap.size} logos`);
 }
 
 function scheduleImageCacheRebuild() {
@@ -169,7 +203,7 @@ app.get('/preview.jpg', async (req, res) => {
 
     const buffer = await sharp(filePath)
       .resize(1200, 630, { fit: 'cover', position: 'center' })
-      .jpeg({ quality: 82, progressive: true })
+      .jpeg({ quality: 80, progressive: true })
       .toBuffer();
 
     res.setHeader('Content-Type', 'image/jpeg');
@@ -181,11 +215,41 @@ app.get('/preview.jpg', async (req, res) => {
   }
 });
 
+app.get('/api/logo', (req, res) => {
+  try {
+    const { id, name } = req.query;
+    if (name) {
+      const logoId = logoAliasMap.get(name);
+      if (!logoId) {
+        return res.status(404).send('Logo not found');
+      }
+      return res.redirect(302, `/api/logo?id=${encodeURIComponent(logoId)}`);
+    }
+    if (!id) {
+      return res.status(400).send('Missing logo id');
+    }
+    const file = logoMap.get(id);
+    if (!file) {
+      return res.status(404).send('Logo not found');
+    }
+    const filePath = path.resolve(LOGO_FOLDER, file);
+    if (!filePath.startsWith(LOGO_FOLDER + path.sep)) {
+      return res.status(403).send('Forbidden');
+    }
+    res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    res.sendFile(filePath);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error serving logo');
+  }
+});
+
 app.use((req, res) => {
   res.status(404).sendFile(path.join(PUBLIC_FOLDER, '404', 'index.html'));
 });
 
 buildImageCache().then(() => {
+  await buildLogoCache();
   fs.watch(IMAGE_FOLDER, (eventType, filename) => {
     if (!filename) return;
     if (!/\.(jpg|jpeg|png|webp)$/i.test(filename)) return;
