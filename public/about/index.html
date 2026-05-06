@@ -31,6 +31,13 @@
     .about-section p + p {
       margin-top: 1.05rem;
     }
+    .about-logo-strip img {
+      max-height: 22px;
+      max-width: 92px;
+      object-fit: contain;
+      opacity: 0.55;
+      filter: grayscale(1) brightness(1.6);
+    }
     @media (max-width: 700px) {
       .about-section {
         max-width: 330px;
@@ -45,13 +52,6 @@
       }
       .about-section p + p {
         margin-top: 0.95rem;
-      }
-      .about-logo-strip img {
-        max-height: 22px;
-        max-width: 92px;
-        object-fit: contain;
-        opacity: 0.55;
-        filter: grayscale(1) brightness(1.6);
       }
     }
   </style>
