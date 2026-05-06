@@ -32,11 +32,14 @@
       margin-top: 1.05rem;
     }
     .about-logo-strip img {
+      display: block;
       max-height: 22px;
-      max-width: 92px;
       object-fit: contain;
       opacity: 0.55;
       filter: grayscale(1) brightness(1.6);
+    }
+    .about-logo-strip img.logo-invert {
+      filter: invert(1) grayscale(1) brightness(1.6);
     }
     @media (max-width: 700px) {
       .about-section {
@@ -95,8 +98,8 @@
     </p>
     <div class="about-logo-strip" aria-label="Project client platforms and networks">
       <img src="/api/logo?name=netflix" alt="Netflix">
-      <img src="/api/logo?name=disneyplus" alt="Disney+">
-      <img src="/api/logo?name=appletv" alt="Apple TV">
+      <img class="logo-invert" src="/api/logo?name=disneyplus" alt="Disney+">
+      <img class="logo-invert" src="/api/logo?name=appletv" alt="Apple TV">
       <img src="/api/logo?name=foodnetwork" alt="Food Network">
     </div>
   </section>
