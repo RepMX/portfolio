@@ -72,6 +72,8 @@ build/Release
 
 private-images/
 
+private-logos/
+
 node_modules/
 
 jspm_packages/
