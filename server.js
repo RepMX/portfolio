@@ -41,8 +41,8 @@ app.get('/sitemap.xml', (req, res) => {
   const lastmod = new Date().toISOString().split('T')[0];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
-${pages.map(page => `  <url>
+  <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+  ${pages.map(page => `  <url>
     <loc>${page.url}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
