@@ -218,27 +218,42 @@ app.get('/preview.jpg', async (req, res) => {
   }
 });
 
+app.get('/api/list-logos', (req, res) => {
+  try {
+    const logos = {};
+
+    for (const [alias, id] of logoAliasMap.entries()) {
+      logos[alias] = `/api/logo?id=${encodeURIComponent(id)}`;
+    }
+
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.json(logos);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error generating logo map');
+  }
+});
+
 app.get('/api/logo', (req, res) => {
   try {
-    const { id, name } = req.query;
-    if (name) {
-      const logoId = logoAliasMap.get(name);
-      if (!logoId) {
-        return res.status(404).send('Logo not found');
-      }
-      return res.redirect(302, `/api/logo?id=${encodeURIComponent(logoId)}`);
-    }
+    const { id } = req.query;
+
     if (!id) {
       return res.status(400).send('Missing logo id');
     }
+
     const file = logoMap.get(id);
+
     if (!file) {
       return res.status(404).send('Logo not found');
     }
+
     const filePath = path.resolve(LOGO_FOLDER, file);
+
     if (!filePath.startsWith(LOGO_FOLDER + path.sep)) {
       return res.status(403).send('Forbidden');
     }
+
     res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     res.sendFile(filePath);
   } catch (err) {

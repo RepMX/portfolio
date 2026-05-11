@@ -56,10 +56,10 @@
         Designed and coded by Jedy from the ground up, this site features a custom masonry gallery and optimized image rendering built with CSS and JavaScript.
       </p>
       <div class="about-logo-strip" aria-label="Project client platforms and networks">
-        <img class="logo-invert" src="/api/logo?name=netflix" alt="Netflix">
-        <img class="logo-invert" src="/api/logo?name=disneyplus" alt="Disney+">
-        <img class="logo-invert logo-resize" src="/api/logo?name=appletv" alt="Apple TV">
-        <img src="/api/logo?name=foodnetwork" alt="Food Network">
+        <img brand-logo="netflix" class="logo-invert" alt="Netflix">
+        <img brand-logo="disneyplus" class="logo-invert" alt="Disney+">
+        <img brand-logo="appletv" class="logo-invert logo-resize" alt="Apple TV">
+        <img brand-logo="foodnetwork" alt="Food Network">
       </div>
     </section>
   </main>
@@ -69,24 +69,47 @@
 </footer>
 <script>
   const logoStrip = document.querySelector('.about-logo-strip');
-  const logos = document.querySelectorAll('.about-logo-strip img');
+  const logos = document.querySelectorAll('.about-logo-strip img[brand-logo]');
 
-  if (logoStrip && logos.length) {
-    const logoPromises = [...logos].map(logo => {
-      if (logo.complete) return Promise.resolve();
+  async function loadLogos() {
+    if (!logoStrip || !logos.length) return;
 
-      return new Promise(resolve => {
-        logo.addEventListener('load', resolve, { once: true });
-        logo.addEventListener('error', resolve, { once: true });
+    try {
+      const response = await fetch('/api/list-logos');
+      const logoMap = await response.json();
+
+      logos.forEach(logo => {
+        const name = logo.dataset.logo;
+        const src = logoMap[name];
+
+        if (src) {
+          logo.src = src;
+        }
       });
-    });
 
-    Promise.all(logoPromises).then(() => {
-      requestAnimationFrame(() => {
-        logoStrip.classList.add('logos-loaded');
+      const logoPromises = [...logos].map(logo => {
+        if (logo.complete && logo.naturalWidth > 0) {
+          return Promise.resolve();
+        }
+
+        return new Promise(resolve => {
+          logo.addEventListener('load', resolve, { once: true });
+          logo.addEventListener('error', resolve, { once: true });
+        });
       });
-    });
+
+      Promise.all(logoPromises).then(() => {
+        requestAnimationFrame(() => {
+          logoStrip.classList.add('logos-loaded');
+        });
+      });
+    } catch (err) {
+      console.error('Failed to load logos:', err);
+      logoStrip.classList.add('logos-loaded');
+    }
   }
+
+  loadLogos();
 </script>
 </body>
 </html>
