@@ -79,7 +79,7 @@
       const logoMap = await response.json();
 
       logos.forEach(logo => {
-        const name = logo.dataset.logo;
+        const name = logo.getAttribute('brand-logo');
         const src = logoMap[name];
 
         if (src) {
