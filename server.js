@@ -41,15 +41,17 @@ app.get('/sitemap.xml', (req, res) => {
   const lastmod = new Date().toISOString().split('T')[0];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
+  <?xml-stylesheet type="text/xsl" href="https://shop.jedy.cc/default-sitemap.xsl?sitemap=root"?>
   <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9" 
-  xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  ${pages.map(page => `  <url>
-    <loc>${page.url}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>${page.changefreq}</changefreq>
-    <priority>${page.priority}</priority>
-  </url>`).join('\n')}
-</urlset>`;
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+    ${pages.map(page => `<url>
+      <loc>${page.url}</loc>
+      <lastmod>${lastmod}</lastmod>
+      <changefreq>${page.changefreq}</changefreq>
+      <priority>${page.priority}</priority>
+    </url>`).join('\n')}
+  </urlset>`;
 
   res.setHeader('Content-Type', 'application/xml');
   res.setHeader('Cache-Control', 'public, max-age=3600');
