@@ -67,6 +67,13 @@ bower_components
 
 build/Release
 
+# Ignore all image files
+
+*.png
+
+*.jpg
+
+*.svg
 
 # Dependency directories
 
