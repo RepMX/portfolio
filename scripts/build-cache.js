@@ -13,7 +13,7 @@ sharp.concurrency(2);
 
 const ROOT_FOLDER = path.resolve(__dirname, '..');
 const PUBLIC_FOLDER = path.join(ROOT_FOLDER, 'public');
-const CACHE_FOLDER = path.join(ROOT_FOLDER, 'cache');
+const CACHE_FOLDER = path.join(ROOT_FOLDER, '.cache');
 
 const IMAGE_FOLDER = path.resolve(ROOT_FOLDER, 'private-images');
 const LOGO_FOLDER = path.resolve(ROOT_FOLDER, 'private-logos');

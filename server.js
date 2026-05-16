@@ -5,7 +5,7 @@ const path = require('path');
 const app = express();
 
 const PUBLIC_FOLDER = path.join(__dirname, 'public');
-const CACHE_FOLDER = path.join(__dirname, 'cache');
+const CACHE_FOLDER = path.join(__dirname, '.cache');
 
 const IMAGE_FOLDER = path.resolve(__dirname, 'private-images');
 const LOGO_FOLDER = path.resolve(__dirname, 'private-logos');
