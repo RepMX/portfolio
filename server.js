@@ -4,12 +4,6 @@ const path = require('path');
 const crypto = require('crypto');
 const sharp = require('sharp');
 
-sharp.cache({
-  memory: 50,
-  files: 0,
-  items: 100
-});
-
 const app = express();
 
 const PUBLIC_FOLDER = path.join(__dirname, 'public');
