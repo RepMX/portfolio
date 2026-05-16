@@ -1,12 +1,23 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
-const sharp = require('sharp');
 
 const app = express();
 
 const PUBLIC_FOLDER = path.join(__dirname, 'public');
+const CACHE_FOLDER = path.join(__dirname, 'cache');
+
+const IMAGE_FOLDER = path.resolve(__dirname, 'private-images');
+const LOGO_FOLDER = path.resolve(__dirname, 'private-logos');
+
+const IMAGE_CACHE_FILE = path.join(CACHE_FOLDER, 'images.json');
+const LOGO_CACHE_FILE = path.join(CACHE_FOLDER, 'logos.json');
+
+let logoMap = new Map();
+let logoAliasMap = new Map();
+
+let imageMap = new Map();
+let cachedImages = [];
 
 function getStaticPages() {
   const pages = [
@@ -36,22 +47,58 @@ function getStaticPages() {
   return pages;
 }
 
+function loadImageCache() {
+  if (!fs.existsSync(IMAGE_CACHE_FILE)) {
+    throw new Error('Missing cache/images.json. Run: node scripts/build-cache.js');
+  }
+
+  const records = JSON.parse(fs.readFileSync(IMAGE_CACHE_FILE, 'utf8'));
+
+  imageMap = new Map();
+
+  cachedImages = records.map(({ file, ...image }) => {
+    imageMap.set(image.id, file);
+    return image;
+  });
+
+  console.log(`Loaded ${cachedImages.length} cached images`);
+}
+
+function loadLogoCache() {
+  if (!fs.existsSync(LOGO_CACHE_FILE)) {
+    console.warn('Missing cache/logos.json. Run: node scripts/build-cache.js');
+    return;
+  }
+
+  const records = JSON.parse(fs.readFileSync(LOGO_CACHE_FILE, 'utf8'));
+
+  logoMap = new Map();
+  logoAliasMap = new Map();
+
+  records.forEach(({ alias, id, file }) => {
+    logoMap.set(id, file);
+    logoAliasMap.set(alias, id);
+  });
+
+  console.log(`Loaded ${logoMap.size} cached logos`);
+}
+
 app.get('/sitemap.xml', (req, res) => {
   const pages = getStaticPages();
   const lastmod = new Date().toISOString().split('T')[0];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-  <?xml-stylesheet type="text/xsl" href="https://shop.jedy.cc/default-sitemap.xsl?sitemap=root"?>
-  <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9" 
-    xmlns:xhtml="http://www.w3.org/1999/xhtml"
-    xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-    ${pages.map(page => `<url>
-      <loc>${page.url}</loc>
-      <lastmod>${lastmod}</lastmod>
-      <changefreq>${page.changefreq}</changefreq>
-      <priority>${page.priority}</priority>
-    </url>`).join('\n')}
-  </urlset>`;
+<?xml-stylesheet type="text/xsl" href="https://shop.jedy.cc/default-sitemap.xsl?sitemap=root"?>
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9" 
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${pages.map(page => `  <url>
+    <loc>${page.url}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
+  </url>`).join('\n')}
+</urlset>`;
 
   res.setHeader('Content-Type', 'application/xml');
   res.setHeader('Cache-Control', 'public, max-age=3600');
@@ -59,114 +106,6 @@ app.get('/sitemap.xml', (req, res) => {
 });
 
 app.use(express.static(PUBLIC_FOLDER));
-
-const IMAGE_FOLDER = path.resolve(__dirname, 'private-images');
-const LOGO_FOLDER = path.resolve(__dirname, 'private-logos');
-
-const logoAliases = {
-  netflix: 'netflix.png',
-  disneyplus: 'disneyplus.png',
-  appletv: 'appletv.png',
-  foodnetwork: 'foodnetwork.png'
-};
-
-let logoMap = new Map();
-let logoAliasMap = new Map();
-
-let rebuildTimer;
-let isRebuilding = false;
-let imageMap = new Map();
-let cachedImages = [];
-
-function makeId(filename) {
-  return crypto
-    .createHash('sha256')
-    .update(filename)
-    .digest('hex')
-    .slice(0, 16);
-}
-
-async function getAverageColor(filePath) {
-  try {
-    const { data } = await sharp(filePath)
-      .resize(1, 1)
-      .raw()
-      .toBuffer({ resolveWithObject: true });
-
-    return `#${[data[0], data[1], data[2]]
-      .map(v => v.toString(16).padStart(2, '0'))
-      .join('')}`;
-  } catch {
-    return '#080806';
-  }
-}
-
-async function buildImageCache() {
-  const files = fs.readdirSync(IMAGE_FOLDER)
-    .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file));
-
-  imageMap = new Map();
-
-  cachedImages = await Promise.all(files.map(async file => {
-    const id = makeId(file);
-    const filePath = path.join(IMAGE_FOLDER, file);
-
-    imageMap.set(id, file);
-
-    const metadata = await sharp(filePath).metadata();
-
-    return {
-      id,
-      width: metadata.width,
-      height: metadata.height,
-      bgColor: await getAverageColor(filePath)
-    };
-  }));
-
-  console.log(`Cached ${cachedImages.length} images`);
-}
-
-function buildLogoCache() {
-  if (!fs.existsSync(LOGO_FOLDER)) {
-    console.warn('No private-logos folder found');
-    return;
-  }
-
-  logoMap = new Map();
-  logoAliasMap = new Map();
-
-  Object.entries(logoAliases).forEach(([alias, file]) => {
-    const filePath = path.join(LOGO_FOLDER, file);
-    if (!fs.existsSync(filePath)) {
-      console.warn(`Logo file missing: ${file}`);
-      return;
-    }
-    const id = makeId(file);
-    logoMap.set(id, file);
-    logoAliasMap.set(alias, id);
-  });
-
-  console.log(`Cached ${logoMap.size} logos`);
-}
-
-function scheduleImageCacheRebuild() {
-  clearTimeout(rebuildTimer);
-
-  rebuildTimer = setTimeout(async () => {
-    if (isRebuilding) return;
-
-    try {
-      isRebuilding = true;
-      console.log('Private image folder changed. Rebuilding image cache...');
-      await buildImageCache();
-      console.log('Image cache rebuilt.');
-    } catch (err) {
-      console.error('Failed to rebuild image cache:', err);
-    } finally {
-      isRebuilding = false;
-    }
-  }, 800);
-}
 
 app.get('/api/list-images', (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=300');
@@ -191,30 +130,6 @@ app.get('/api/image', (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error serving image');
-  }
-});
-
-app.get('/preview.jpg', async (req, res) => {
-  try {
-    const files = fs.readdirSync(IMAGE_FOLDER)
-      .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file))
-      .sort();
-
-    if (!files.length) return res.status(404).send('No preview image available');
-
-    const filePath = path.join(IMAGE_FOLDER, files[0]);
-
-    const buffer = await sharp(filePath)
-      .resize(1200, 630, { fit: 'cover', position: 'center' })
-      .jpeg({ quality: 80, progressive: true })
-      .toBuffer();
-
-    res.setHeader('Content-Type', 'image/jpeg');
-    res.setHeader('Cache-Control', 'public, max-age=86400');
-    res.send(buffer);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error generating preview');
   }
 });
 
@@ -266,14 +181,9 @@ app.use((req, res) => {
   res.status(404).sendFile(path.join(PUBLIC_FOLDER, '404', 'index.html'));
 });
 
-buildImageCache().then(() => {
-  buildLogoCache();
-  fs.watch(IMAGE_FOLDER, (eventType, filename) => {
-    if (!filename) return;
-    if (!/\.(jpg|jpeg|png|webp)$/i.test(filename)) return;
-    scheduleImageCacheRebuild();
-  });
-  app.listen(3000, () => {
-    console.log('Running at http://localhost:3000');
-  });
+loadImageCache();
+loadLogoCache();
+
+app.listen(3000, () => {
+  console.log('Running at http://localhost:3000');
 });

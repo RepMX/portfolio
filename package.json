@@ -2,6 +2,10 @@
   "name": "gallery",
   "version": "1.0.0",
   "main": "server.js",
+  "scripts": {
+    "build-cache": "node scripts/build-cache.js",
+    "start": "node server.js"
+  },
   "dependencies": {
     "express": "^4.18.2",
     "sharp": "^0.34.5"
