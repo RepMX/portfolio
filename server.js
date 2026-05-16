@@ -105,7 +105,13 @@ ${pages.map(page => `  <url>
   res.send(xml);
 });
 
-app.use(express.static(PUBLIC_FOLDER));
+app.use(express.static(PUBLIC_FOLDER, {
+  setHeaders: (res, filePath) => {
+    if (/\.(?:jpg|png|svg|ico|txt)$/i.test(filePath)) {
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+    }
+  }
+}));
 
 app.get('/api/list-images', (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=300');
@@ -126,6 +132,7 @@ app.get('/api/image', (req, res) => {
       return res.status(403).send('Forbidden');
     }
 
+    res.setHeader('Cache-Control', 'public, max-age=86400');
     res.sendFile(filePath);
   } catch (err) {
     console.error(err);
