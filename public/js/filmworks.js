@@ -30,12 +30,21 @@ async function loadProjects() {
 }
 
 function initializeSliderMarkup() {
+    // Injected ultra-thin modern minimalist SVG arrows instead of text strings
     container.innerHTML = `
         <div class="film-slide">
             <div class="film-viewer">
-                <button class="film-arrow film-arrow-prev">&#10094;</button>
+                <button class="film-arrow film-arrow-prev" aria-label="Previous Slide">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
                 <div class="film-thumbnail"></div>
-                <button class="film-arrow film-arrow-next">&#10095;</button>
+                <button class="film-arrow film-arrow-next" aria-label="Next Slide">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
             </div>
             <div class="film-meta">
                 <h2 class="film-title"></h2>
@@ -68,7 +77,7 @@ function initializeSliderMarkup() {
     });
 
     ui.thumbnail.addEventListener('click', () => {
-        if (ui.thumbnail.querySelector('iframe')) return; // Drop execution if already playing
+        if (ui.thumbnail.querySelector('iframe')) return;
         stopRotation();
 
         const project = projects[currentIndex];
@@ -99,8 +108,9 @@ function renderSlide() {
     if (!project) return;
 
     ui.slide.style.animation = 'none';
-    ui.slide.offsetHeight; // Forces element re-flow state calculation 
+    ui.slide.offsetHeight; 
     ui.slide.style.animation = 'filmFade .4s ease';
+
     ui.thumbnail.innerHTML = `
         <img src="https://i.ytimg.com/vi/${project.link}/maxresdefault.jpg" alt="${project.title}">
         <button class="film-play-button"><span></span></button>
