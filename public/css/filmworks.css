@@ -170,8 +170,8 @@
     width: 8px; 
     height: 8px;
     border-radius: 50%;
-    border: 2px solid transparent; 
-    background-color: #b0b0b0;
+    border: 2px solid #b0b0b0; 
+    background-color: transparent;
     cursor: pointer;
     flex-shrink: 0;
     box-sizing: border-box; 
@@ -180,6 +180,6 @@
 }
 
 .film-dot.active {
-    background-color: transparent !important;
-    border-color: #000000;
+    border-color: transparent;
+    background-color: #b0b0b0 !important;
 }
