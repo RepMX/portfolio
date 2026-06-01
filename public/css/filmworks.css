@@ -1,5 +1,8 @@
+.page-section {
+    max-width: fit-content;
+}
+
 .filmworks-slider {
-    width: 70%; /* Forces the slider frame to perfectly occupy 70% of the page width */
     max-width: 1400px; /* Optional safety ceiling for ultra-wide desktop configurations */
     margin: 0 auto;
     position: relative; /* Established anchoring point for outside absolute arrows */
