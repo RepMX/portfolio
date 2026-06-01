@@ -23,7 +23,7 @@ async function loadProjects() {
         if (projects.length === 0) return;
 
         initializeSliderMarkup();
-        renderSlide('next'); // Initial slide slides in from the right
+        renderSlide('next'); 
         startRotation();
     } catch (error) {
         console.error('Slider Initialization Failed:', error);
@@ -31,7 +31,6 @@ async function loadProjects() {
 }
 
 function initializeSliderMarkup() {
-    // The main framework is injected exactly ONCE here
     container.innerHTML = `
         <div class="film-slide">
             <div class="film-viewer">
@@ -66,7 +65,6 @@ function initializeSliderMarkup() {
     container.querySelector('.film-arrow-prev').addEventListener('click', () => navigateSlide(-1));
     container.querySelector('.film-arrow-next').addEventListener('click', () => navigateSlide(1));
 
-    // The dot elements are created precisely once here
     ui.dotsContainer.innerHTML = projects.map((_, index) => `
         <button class="film-dot" data-index="${index}"></button>
     `).join('');
@@ -113,7 +111,7 @@ function renderSlide(direction = 'next') {
     const project = projects[currentIndex];
     if (!project) return;
 
-    // FIX: Dynamically switch animation names based on slider direction context
+    // Dynamically switch animation names based on slider direction context
     const animationName = direction === 'prev' ? 'filmFadeLeft' : 'filmFadeRight';
 
     ui.thumbnail.style.animation = 'none';
@@ -141,7 +139,7 @@ function renderSlide(direction = 'next') {
 
 function nextSlide() {
     currentIndex = (currentIndex + 1) % projects.length;
-    renderSlide('next'); // Auto rotation always moves forward / right
+    renderSlide('next'); // Auto rotation always moves forward/right
 }
 
 function startRotation() {

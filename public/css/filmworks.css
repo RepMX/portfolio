@@ -27,7 +27,6 @@
     gap: 16px;
 }
 
-/* FIX: Split original single timeline configuration into directional pairs */
 @keyframes filmFadeRight {
     from {
         opacity: 0;
@@ -62,7 +61,6 @@
     background-color: #000;
     overflow: hidden;
     cursor: pointer;
-    /* Base configuration animation assignments are now applied dynamically inside JS */
 }
 
 .film-thumbnail img,
@@ -158,12 +156,14 @@
     }
 }
 
+/* FIX: Establish a structural min-height boundary for text wrapping */
 .film-meta {
     text-align: center;
+    min-height: 110px; /* Allocates vertical room for multi-line text wrapping without altering layout height */
 }
 
 .film-meta h2 {
-    margin: 8px 0 8px; /* Corrected syntax definition framework mapping */
+    margin: 1rem 0 8px; 
 }
 
 .film-network-year {
@@ -174,12 +174,14 @@
     margin: 0;
 }
 
+/* FIX: Add layout clearance layout padding directly underneath the navigation dots track */
 .film-dots {
     display: flex;
     justify-content: center;
     align-items: center; 
     gap: 8px;
     margin-top: 16px;
+    margin-bottom: 32px; /* Extra bottom clearance cushion for layout safety when content wraps */
     height: 12px; 
 }
 
