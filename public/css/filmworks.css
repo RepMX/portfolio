@@ -11,30 +11,36 @@
     margin: 0 0 1.2rem;
 }
 
+@media (min-width: 900px) {
+    .film-arrow {
+        margin: 0 -20px;
+    }
+}
+
+@media (min-width: 700px) {
+    .film-arrow {
+        margin: 0 -8px;
+    }
+    .film-arrow-prev:hover {
+        transform: translateY(-50%) translateX(-2px);
+    }
+    .film-arrow-next:hover {
+        transform: translateY(-50%) translateX(2px);
+    }
+}
+
+@media (max-width: 700px) {
+    .film-arrow {
+        margin: 0 8px;
+    }
+}
+
 .filmworks-slider {
-    width: 92%;
+    width: 78%;
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
     box-sizing: border-box;
-    aspect-ratio: 16 / 15;
-    opacity: 0;
-    transform: translateY(40px);
-    clip-path: inset(50% 0 50% 0);
-    transition: opacity 0.6s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.filmworks-slider.is-loaded {
-    opacity: 1;
-    transform: translateY(0);
-    clip-path: inset(0% 0 0% 0);
-}
-
-@media (min-width: 768px) {
-    .filmworks-slider {
-        width: 78%;
-        aspect-ratio: 16 / 11;
-    }
 }
 
 .film-slide {
@@ -150,41 +156,11 @@
 }
 
 .film-arrow-prev {
-    left: 8px;
+    left: -50px;
 }
 
 .film-arrow-next {
-    right: 8px;
-}
-
-@media (min-width: 700px) {
-    .film-arrow {
-        margin: 0 -8px;
-    }
-    .film-arrow-prev {
-        left: -50px;
-    }
-    .film-arrow-next {
-        right: -50px;
-    }
-    .film-arrow-prev:hover {
-        transform: translateY(-50%) translateX(-2px);
-    }
-    .film-arrow-next:hover {
-        transform: translateY(-50%) translateX(2px);
-    }
-}
-
-@media (min-width: 900px) {
-    .film-arrow {
-        margin: 0 -20px;
-    }
-}
-
-@media (max-width: 700px) {
-    .film-arrow {
-        margin: 0 8px;
-    }
+    right: -50px;
 }
 
 @media (prefers-color-scheme: light) {
@@ -198,13 +174,7 @@
 
 .film-meta {
     text-align: center;
-    min-height: 160px;
-}
-
-@media (min-width: 768px) {
-    .film-meta {
-        min-height: 120px;
-    }
+    min-height: 140px;
 }
 
 .film-meta h2 {
