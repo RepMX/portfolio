@@ -27,6 +27,9 @@
     .film-arrow-next:hover {
         transform: translateY(-50%) translateX(2px);
     }
+    .film-meta {
+        min-height: 110px;
+    }
 }
 
 @media (max-width: 700px) {
@@ -174,7 +177,7 @@
 
 .film-meta {
     text-align: center;
-    min-height: 140px; /* Allocates vertical room for multi-line text wrapping without altering layout height */
+    min-height: 140px;
 }
 
 .film-meta h2 {
