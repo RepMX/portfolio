@@ -57,6 +57,31 @@ header {
   text-decoration: none;
   display: inline-block;
   transition: color 0.45s ease, opacity 0.45s ease;
+  animation: textBeacon 1.5s 1 ease-out;
+  animation-delay: 2s;
+}
+
+@keyframes textBeacon {
+  0% {
+    /* Tight, sharp shadow at the start */
+    text-shadow: 
+      0 0 4px rgba(240, 240, 231, 0.6),
+      0 0 10px rgba(240, 240, 231, 0.4);
+  }
+  50% {
+    /* The beacon wave grows larger and spreads out */
+    text-shadow: 
+      0 0 15px rgba(240, 240, 231, 0.8),
+      0 0 30px rgba(240, 240, 231, 0.6),
+      0 0 50px rgba(240, 240, 231, 0.4);
+  }
+  100% {
+    /* The outer beacon fades completely to zero opacity */
+    text-shadow: 
+      0 0 20px rgba(240, 240, 231, 0),
+      0 0 60px rgba(240, 240, 231, 0),
+      0 0 100px rgba(240, 240, 231, 0);
+  }
 }
 
 #page-heading:hover {
