@@ -4,9 +4,10 @@
 }
 
 .filmworks-slider {
-    max-width: 1400px; /* Optional safety ceiling for ultra-wide desktop configurations */
+    width: 70%; 
+    max-width: 1400px; 
     margin: 0 auto;
-    position: relative; /* Established anchoring point for outside absolute arrows */
+    position: relative; 
     box-sizing: border-box;
 }
 
@@ -14,7 +15,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    animation: filmFade .4s ease;
+    /* Removed global animation trigger to prevent arrow and dot shifting */
 }
 
 @keyframes filmFade {
@@ -33,7 +34,7 @@
     width: 100%;
 }
 
-/* FIX: Absolute Aspect-Ratio Lock. Prevents structural shifting regardless of source image properties */
+/* Isolated Content Animation Location 1 */
 .film-thumbnail {
     position: relative;
     width: 100%;
@@ -41,9 +42,9 @@
     background-color: #000;
     overflow: hidden;
     cursor: pointer;
+    animation: filmFade .4s ease;
 }
 
-/* Force elements to match parent constraints natively */
 .film-thumbnail img,
 .film-thumbnail iframe {
     position: absolute;
@@ -87,7 +88,7 @@
     margin-left: 4px;
 }
 
-/* Minimalist Thinner Vector Arrows */
+/* Arrows remain completely stationary outside the layout animation container boundaries */
 .film-arrow {
     position: absolute;
     top: 50%;
@@ -115,7 +116,6 @@
     color: rgba(255, 255, 255, 0.95);
 }
 
-/* Clears the 70% media boundary to sit neatly outside the frame structure */
 .film-arrow-prev {
     left: -50px;
 }
@@ -139,8 +139,10 @@
     }
 }
 
+/* Isolated Content Animation Location 2 */
 .film-meta {
     text-align: center;
+    animation: filmFade .4s ease;
 }
 
 .film-meta h2 {
@@ -155,30 +157,29 @@
     margin: 0;
 }
 
+/* Dots track structure remains perfectly locked in position layout */
 .film-dots {
     display: flex;
     justify-content: center;
-    align-items: center; /* Vertical alignment ensures the donut doesn't shift lines */
+    align-items: center; 
     gap: 8px;
     margin-top: 16px;
-    height: 12px; /* Set locked height box to capture layout bounds */
+    height: 12px; 
 }
 
-/* FIX: Smaller Navigation Dots with 'Black Donut' transformation architecture */
 .film-dot {
-    width: 8px; /* Reduced baseline size mapping */
+    width: 8px; 
     height: 8px;
     border-radius: 50%;
-    border: 2px solid transparent; /* Allocates space for the donut wall ahead of time */
+    border: 2px solid transparent; 
     background-color: #b0b0b0;
     cursor: pointer;
     flex-shrink: 0;
-    box-sizing: border-box; /* Includes border calculation within the layout matrix */
+    box-sizing: border-box; 
     transition: background-color 0.25s ease, border-color 0.25s ease;
     padding: 0;
 }
 
-/* Hides center fill and displays sharp outer ring layout */
 .film-dot.active {
     background-color: transparent !important;
     border-color: #000000;

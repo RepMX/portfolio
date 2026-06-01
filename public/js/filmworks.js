@@ -4,9 +4,10 @@ let projects = [];
 let currentIndex = 0;
 let autoRotate;
 
+// Cached UI element references
 const ui = {
-    slide: null,
     thumbnail: null,
+    meta: null, // Added to isolate text block animations
     title: null,
     networkYear: null,
     role: null,
@@ -30,6 +31,7 @@ async function loadProjects() {
 }
 
 function initializeSliderMarkup() {
+    // The main framework is injected exactly ONCE here
     container.innerHTML = `
         <div class="film-slide">
             <div class="film-viewer">
@@ -54,8 +56,8 @@ function initializeSliderMarkup() {
         </div>
     `;
 
-    ui.slide = container.querySelector('.film-slide');
     ui.thumbnail = container.querySelector('.film-thumbnail');
+    ui.meta = container.querySelector('.film-meta');
     ui.title = container.querySelector('.film-title');
     ui.networkYear = container.querySelector('.film-network-year');
     ui.role = container.querySelector('.film-role');
@@ -64,6 +66,7 @@ function initializeSliderMarkup() {
     container.querySelector('.film-arrow-prev').addEventListener('click', () => navigateSlide(-1));
     container.querySelector('.film-arrow-next').addEventListener('click', () => navigateSlide(1));
 
+    // The dot elements are created precisely once here
     ui.dotsContainer.innerHTML = projects.map((_, index) => `
         <button class="film-dot" data-index="${index}"></button>
     `).join('');
@@ -106,10 +109,15 @@ function renderSlide() {
     const project = projects[currentIndex];
     if (!project) return;
 
-    ui.slide.style.animation = 'none';
-    ui.slide.offsetHeight; 
-    ui.slide.style.animation = 'filmFade .4s ease';
+    // FIX: Reset animation ONLY on changing content (Thumbnail & Meta)
+    ui.thumbnail.style.animation = 'none';
+    ui.meta.style.animation = 'none';
+    ui.thumbnail.offsetHeight; // Trigger DOM reflow to re-verify animation states
+    ui.meta.offsetHeight;
+    ui.thumbnail.style.animation = 'filmFade .4s ease';
+    ui.meta.style.animation = 'filmFade .4s ease';
 
+    // Swap structural layout assets seamlessly inside the locked container
     ui.thumbnail.innerHTML = `
         <img src="https://i.ytimg.com/vi/${project.link}/maxresdefault.jpg" alt="${project.title}">
         <button class="film-play-button"><span></span></button>
@@ -119,6 +127,7 @@ function renderSlide() {
     ui.networkYear.textContent = `${project.network} • ${project.year}`;
     ui.role.textContent = project.role;
 
+    // Fast class toggling instead of rebuilding the dots
     ui.dotsContainer.querySelectorAll('.film-dot').forEach((dot, index) => {
         dot.classList.toggle('active', index === currentIndex);
     });
