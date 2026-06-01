@@ -11,17 +11,29 @@
     margin: 0 0 1.2rem;
 }
 
-@media (min-width: 700px) {
+@media (min-width: 701px) {
     .film-arrow {
         margin: 0 -20px;
+    }
+    .film-arrow-prev:hover {
+        transform: translateY(-50%) translateX(-2px);
+    }
+    .film-arrow-next:hover {
+        transform: translateY(-50%) translateX(2px);
+    }
+}
+
+@media (max-width: 700px) {
+    .film-arrow {
+        margin: 0 8px;
     }
 }
 
 .filmworks-slider {
-    width: 72%; 
-    max-width: 1400px; 
+    width: 78%;
+    max-width: 1400px;
     margin: 0 auto;
-    position: relative; 
+    position: relative;
     box-sizing: border-box;
 }
 
@@ -140,15 +152,9 @@
 .film-arrow-prev {
     left: -50px;
 }
-.film-arrow-prev:hover {
-    transform: translateY(-50%) translateX(-2px);
-}
 
 .film-arrow-next {
     right: -50px;
-}
-.film-arrow-next:hover {
-    transform: translateY(-50%) translateX(2px);
 }
 
 @media (prefers-color-scheme: light) {
