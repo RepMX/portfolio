@@ -8,6 +8,19 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    animation: filmFade .4s ease;
+}
+
+@keyframes filmFade {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .film-thumbnail {
@@ -26,6 +39,7 @@
 }
 
 .film-play-button {
+    background: rgba(30,30,30,.9);
     position: absolute;
     inset: 0;
     margin: auto;
@@ -42,6 +56,11 @@
     justify-content: center;
 }
 
+.film-play-button:hover {
+    transform: scale(1.08);
+    background: rgba(0,0,0,.95);
+}
+
 .film-play-button span {
     width: 0;
     height: 0;
@@ -51,6 +70,33 @@
     border-left: 20px solid white;
 
     margin-left: 4px;
+}
+
+.film-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 42px;
+    height: 42px;
+
+    border: 0;
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    background: rgba(0,0,0,.75);
+    color: white;
+
+    z-index: 10;
+}
+
+.film-arrow-prev {
+    left: 12px;
+}
+
+.film-arrow-next {
+    right: 12px;
 }
 
 .film-meta {
@@ -66,5 +112,29 @@
 }
 
 .film-role {
-    
+    margin: 0;
+}
+
+.film-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+
+    margin-top: 16px;
+}
+
+.film-dot {
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+    border: 0;
+
+    cursor: pointer;
+
+    background: #b0b0b0;
+}
+
+.film-dot.active {
+    background: #212121;
 }

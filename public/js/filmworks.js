@@ -17,8 +17,12 @@ function renderSlide() {
 
     container.innerHTML = `
         <div class="film-slide">
-            <div class="film-thumbnail"
-                 data-video="${project.link}">
+
+            <button class="film-arrow film-arrow-prev">
+                &#10094;
+            </button>
+
+            <div class="film-thumbnail">
                 <img
                     src="https://i.ytimg.com/vi/${project.link}/maxresdefault.jpg"
                     alt="${project.title}">
@@ -27,19 +31,59 @@ function renderSlide() {
                 </button>
             </div>
 
+            <button class="film-arrow film-arrow-next">
+                &#10095;
+            </button>
+
             <div class="film-meta">
                 <h2>${project.title}</h2>
+
                 <div class="film-network-year">
                     ${project.network} • ${project.year}
                 </div>
+
                 <div class="film-role">
                     ${project.role}
                 </div>
             </div>
+
+            <div class="film-dots"></div>
         </div>
     `;
 
     const thumbnail = container.querySelector('.film-thumbnail');
+    const dots = container.querySelector('.film-dots');
+
+    container.querySelector('.film-arrow-prev')
+        .addEventListener('click', () => {
+            stopRotation();
+            currentIndex = (currentIndex - 1 + projects.length) % projects.length;
+            renderSlide();
+            startRotation();
+        });
+
+    container.querySelector('.film-arrow-next')
+        .addEventListener('click', () => {
+            stopRotation();
+            currentIndex = (currentIndex + 1) % projects.length;
+            renderSlide();
+            startRotation();
+        });
+
+    dots.innerHTML = projects.map((_, index) => `
+        <button class="film-dot ${index === currentIndex ? 'active' : ''}"
+                data-index="${index}">
+        </button>
+    `).join('');
+
+    dots.querySelectorAll('.film-dot').forEach(dot => {
+        dot.addEventListener('click', () => {
+            stopRotation();
+            currentIndex = Number(dot.dataset.index);
+            renderSlide();
+            startRotation();
+        });
+    });
 
     thumbnail.addEventListener('click', () => {
         stopRotation();
