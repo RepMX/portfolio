@@ -1,0 +1,44 @@
+.filmworks-slider {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.film-slide {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.film-thumbnail {
+    position: relative;
+    cursor: pointer;
+}
+
+.film-thumbnail img,
+.film-thumbnail iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    display: block;
+}
+
+.film-play-button {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 72px;
+    height: 72px;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 28px;
+}
+
+.film-meta {
+    text-align: center;
+}
+
+.film-meta h2 {
+    margin-bottom: 8px;
+}
