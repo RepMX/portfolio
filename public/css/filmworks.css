@@ -156,10 +156,9 @@
     }
 }
 
-/* FIX: Establish a structural min-height boundary for text wrapping */
 .film-meta {
     text-align: center;
-    min-height: 110px; /* Allocates vertical room for multi-line text wrapping without altering layout height */
+    min-height: 140px; /* Allocates vertical room for multi-line text wrapping without altering layout height */
 }
 
 .film-meta h2 {
@@ -174,14 +173,13 @@
     margin: 0;
 }
 
-/* FIX: Add layout clearance layout padding directly underneath the navigation dots track */
 .film-dots {
     display: flex;
     justify-content: center;
     align-items: center; 
     gap: 8px;
     margin-top: 16px;
-    margin-bottom: 32px; /* Extra bottom clearance cushion for layout safety when content wraps */
+    margin-bottom: 32px;
     height: 12px; 
 }
 
