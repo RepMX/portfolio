@@ -1,5 +1,6 @@
 .page-section {
-    max-width: fit-content;
+    max-width: stretch;
+    width: calc(80%);
 }
 
 .filmworks-slider {
