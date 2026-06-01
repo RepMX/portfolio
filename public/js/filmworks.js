@@ -4,7 +4,6 @@ let projects = [];
 let currentIndex = 0;
 let autoRotate;
 
-// Cached UI element references
 const ui = {
     thumbnail: null,
     meta: null, 
@@ -25,6 +24,10 @@ async function loadProjects() {
         initializeSliderMarkup();
         renderSlide('next'); 
         startRotation();
+
+        requestAnimationFrame(() => {
+            container.classList.add('is-loaded');
+        });
     } catch (error) {
         console.error('Slider Initialization Failed:', error);
     }
@@ -71,7 +74,6 @@ function initializeSliderMarkup() {
 
     ui.dotsContainer.querySelectorAll('.film-dot').forEach(dot => {
         dot.addEventListener('click', () => {
-            // Determine relative direction based on dot index matching
             const direction = Number(dot.dataset.index) < currentIndex ? 'prev' : 'next';
             currentIndex = Number(dot.dataset.index);
             updateViewWithRotationReset(direction);
@@ -96,7 +98,6 @@ function initializeSliderMarkup() {
 
 function navigateSlide(direction) {
     currentIndex = (currentIndex + direction + projects.length) % projects.length;
-    // Map -1 to 'prev' logic, Map 1 to 'next' logic
     const directionString = direction === -1 ? 'prev' : 'next';
     updateViewWithRotationReset(directionString);
 }
@@ -111,17 +112,15 @@ function renderSlide(direction = 'next') {
     const project = projects[currentIndex];
     if (!project) return;
 
-    // Dynamically switch animation names based on slider direction context
     const animationName = direction === 'prev' ? 'filmFadeLeft' : 'filmFadeRight';
 
     ui.thumbnail.style.animation = 'none';
     ui.meta.style.animation = 'none';
-    ui.thumbnail.offsetHeight; // Trigger DOM reflow to re-verify animation states
+    ui.thumbnail.offsetHeight; 
     ui.meta.offsetHeight;
     ui.thumbnail.style.animation = `${animationName} .4s ease`;
     ui.meta.style.animation = `${animationName} .4s ease`;
 
-    // Swap structural layout assets seamlessly inside the locked container
     ui.thumbnail.innerHTML = `
         <img src="https://i.ytimg.com/vi/${project.link}/maxresdefault.jpg" alt="${project.title}">
         <button class="film-play-button"><span></span></button>
@@ -131,7 +130,6 @@ function renderSlide(direction = 'next') {
     ui.networkYear.textContent = `${project.network} • ${project.year}`;
     ui.role.textContent = project.role;
 
-    // Fast class toggling instead of rebuilding the dots
     ui.dotsContainer.querySelectorAll('.film-dot').forEach((dot, index) => {
         dot.classList.toggle('active', index === currentIndex);
     });
@@ -139,7 +137,7 @@ function renderSlide(direction = 'next') {
 
 function nextSlide() {
     currentIndex = (currentIndex + 1) % projects.length;
-    renderSlide('next'); // Auto rotation always moves forward/right
+    renderSlide('next'); 
 }
 
 function startRotation() {
