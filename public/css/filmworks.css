@@ -15,7 +15,6 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    /* Removed global animation trigger to prevent arrow and dot shifting */
 }
 
 @keyframes filmFade {
@@ -34,7 +33,6 @@
     width: 100%;
 }
 
-/* Isolated Content Animation Location 1 */
 .film-thumbnail {
     position: relative;
     width: 100%;
@@ -88,7 +86,6 @@
     margin-left: 4px;
 }
 
-/* Arrows remain completely stationary outside the layout animation container boundaries */
 .film-arrow {
     position: absolute;
     top: 50%;
@@ -139,14 +136,13 @@
     }
 }
 
-/* Isolated Content Animation Location 2 */
 .film-meta {
     text-align: center;
     animation: filmFade .4s ease;
 }
 
 .film-meta h2 {
-    margin: 0 0 8px;
+    margin: 8 0 8px;
 }
 
 .film-network-year {
@@ -157,7 +153,6 @@
     margin: 0;
 }
 
-/* Dots track structure remains perfectly locked in position layout */
 .film-dots {
     display: flex;
     justify-content: center;
