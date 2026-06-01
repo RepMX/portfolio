@@ -1,8 +1,8 @@
 .filmworks-slider {
-    width: 100%;
-    max-width: 1100px; /* Scaled up to keep the 960px player size intact while adding space for outside arrows */
+    width: 70%; /* Forces the slider frame to perfectly occupy 70% of the page width */
+    max-width: 1400px; /* Optional safety ceiling for ultra-wide desktop configurations */
     margin: 0 auto;
-    padding: 0 70px; /* Creates explicit gutters outside the player for the arrows */
+    position: relative; /* Established anchoring point for outside absolute arrows */
     box-sizing: border-box;
 }
 
@@ -29,7 +29,7 @@
     width: 100%;
 }
 
-/* Restores the large prominent layout size and locks the aspect ratio context */
+/* FIX: Absolute Aspect-Ratio Lock. Prevents structural shifting regardless of source image properties */
 .film-thumbnail {
     position: relative;
     width: 100%;
@@ -39,7 +39,7 @@
     cursor: pointer;
 }
 
-/* Forces both the image and the YouTube iframe to occupy 100% of the large parent box */
+/* Force elements to match parent constraints natively */
 .film-thumbnail img,
 .film-thumbnail iframe {
     position: absolute;
@@ -83,7 +83,7 @@
     margin-left: 4px;
 }
 
-/* Modern, Minimalist Vector Arrows pushed outside the viewer box boundaries */
+/* Minimalist Thinner Vector Arrows */
 .film-arrow {
     position: absolute;
     top: 50%;
@@ -94,8 +94,8 @@
     cursor: pointer;
     z-index: 5;
     padding: 0;
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -105,29 +105,27 @@
 .film-arrow svg {
     width: 100%;
     height: 100%;
-    transition: stroke-width 0.2s ease;
 }
 
 .film-arrow:hover {
     color: rgba(255, 255, 255, 0.95);
 }
 
-/* Negative positioning pulls them precisely out into the 70px container padding space */
+/* Clears the 70% media boundary to sit neatly outside the frame structure */
 .film-arrow-prev {
-    left: -55px;
+    left: -50px;
 }
 .film-arrow-prev:hover {
-    transform: translateY(-50% ) translateX(-3px);
+    transform: translateY(-50%) translateX(-2px);
 }
 
 .film-arrow-next {
-    right: -55px;
+    right: -50px;
 }
 .film-arrow-next:hover {
-    transform: translateY(-50%) translateX(3px);
+    transform: translateY(-50%) translateX(2px);
 }
 
-/* Keep arrow visibility clean on light backgrounds if background page isn't dark */
 @media (prefers-color-scheme: light) {
     .film-arrow {
         color: rgba(0, 0, 0, 0.35);
@@ -156,21 +154,28 @@
 .film-dots {
     display: flex;
     justify-content: center;
+    align-items: center; /* Vertical alignment ensures the donut doesn't shift lines */
     gap: 8px;
     margin-top: 16px;
+    height: 12px; /* Set locked height box to capture layout bounds */
 }
 
+/* FIX: Smaller Navigation Dots with 'Black Donut' transformation architecture */
 .film-dot {
-    width: 10px;
-    height: 10px;
+    width: 8px; /* Reduced baseline size mapping */
+    height: 8px;
     border-radius: 50%;
-    border: 0;
+    border: 2px solid transparent; /* Allocates space for the donut wall ahead of time */
+    background-color: #b0b0b0;
     cursor: pointer;
-    background: #b0b0b0;
     flex-shrink: 0;
-    transition: background-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-sizing: border-box; /* Includes border calculation within the layout matrix */
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+    padding: 0;
 }
 
+/* Hides center fill and displays sharp outer ring layout */
 .film-dot.active {
-    background: #212121;
+    background-color: transparent !important;
+    border-color: #000000;
 }

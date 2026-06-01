@@ -30,7 +30,6 @@ async function loadProjects() {
 }
 
 function initializeSliderMarkup() {
-    // Injected ultra-thin modern minimalist SVG arrows instead of text strings
     container.innerHTML = `
         <div class="film-slide">
             <div class="film-viewer">
