@@ -4,108 +4,119 @@ let projects = [];
 let currentIndex = 0;
 let autoRotate;
 
-async function loadProjects() {
-    const response = await fetch('/filmworks/filmworks.json');
-    projects = await response.json();
+const ui = {
+    slide: null,
+    thumbnail: null,
+    title: null,
+    networkYear: null,
+    role: null,
+    dotsContainer: null
+};
 
-    renderSlide();
-    startRotation();
+async function loadProjects() {
+    try {
+        const response = await fetch('/filmworks/filmworks.json');
+        if (!response.ok) throw new Error('Data endpoint unreachable');
+        
+        projects = await response.json();
+        if (projects.length === 0) return;
+
+        initializeSliderMarkup();
+        renderSlide();
+        startRotation();
+    } catch (error) {
+        console.error('Slider Initialization Failed:', error);
+    }
 }
 
-function renderSlide() {
-    const project = projects[currentIndex];
-
+function initializeSliderMarkup() {
     container.innerHTML = `
         <div class="film-slide">
-
-            <button class="film-arrow film-arrow-prev">
-                &#10094;
-            </button>
-
-            <div class="film-thumbnail">
-                <img
-                    src="https://i.ytimg.com/vi/${project.link}/maxresdefault.jpg"
-                    alt="${project.title}">
-                <button class="film-play-button">
-                    <span></span>
-                </button>
+            <div class="film-viewer">
+                <button class="film-arrow film-arrow-prev">&#10094;</button>
+                <div class="film-thumbnail"></div>
+                <button class="film-arrow film-arrow-next">&#10095;</button>
             </div>
-
-            <button class="film-arrow film-arrow-next">
-                &#10095;
-            </button>
-
             <div class="film-meta">
-                <h2>${project.title}</h2>
-
-                <div class="film-network-year">
-                    ${project.network} • ${project.year}
-                </div>
-
-                <div class="film-role">
-                    ${project.role}
-                </div>
+                <h2 class="film-title"></h2>
+                <div class="film-network-year"></div>
+                <div class="film-role"></div>
             </div>
-
             <div class="film-dots"></div>
         </div>
     `;
 
-    const thumbnail = container.querySelector('.film-thumbnail');
-    const dots = container.querySelector('.film-dots');
+    ui.slide = container.querySelector('.film-slide');
+    ui.thumbnail = container.querySelector('.film-thumbnail');
+    ui.title = container.querySelector('.film-title');
+    ui.networkYear = container.querySelector('.film-network-year');
+    ui.role = container.querySelector('.film-role');
+    ui.dotsContainer = container.querySelector('.film-dots');
 
-    container.querySelector('.film-arrow-prev')
-        .addEventListener('click', () => {
-            stopRotation();
-            currentIndex = (currentIndex - 1 + projects.length) % projects.length;
-            renderSlide();
-            startRotation();
-        });
+    container.querySelector('.film-arrow-prev').addEventListener('click', () => navigateSlide(-1));
+    container.querySelector('.film-arrow-next').addEventListener('click', () => navigateSlide(1));
 
-    container.querySelector('.film-arrow-next')
-        .addEventListener('click', () => {
-            stopRotation();
-            currentIndex = (currentIndex + 1) % projects.length;
-            renderSlide();
-            startRotation();
-        });
-
-    dots.innerHTML = projects.map((_, index) => `
-        <button class="film-dot ${index === currentIndex ? 'active' : ''}"
-                data-index="${index}">
-        </button>
+    ui.dotsContainer.innerHTML = projects.map((_, index) => `
+        <button class="film-dot" data-index="${index}"></button>
     `).join('');
 
-    dots.querySelectorAll('.film-dot').forEach(dot => {
+    ui.dotsContainer.querySelectorAll('.film-dot').forEach(dot => {
         dot.addEventListener('click', () => {
-            stopRotation();
             currentIndex = Number(dot.dataset.index);
-            renderSlide();
-            startRotation();
+            updateViewWithRotationReset();
         });
     });
 
-    thumbnail.addEventListener('click', () => {
+    ui.thumbnail.addEventListener('click', () => {
+        if (ui.thumbnail.querySelector('iframe')) return; // Drop execution if already playing
         stopRotation();
 
-        thumbnail.innerHTML = `
+        const project = projects[currentIndex];
+        ui.thumbnail.innerHTML = `
             <iframe
                 src="https://www.youtube.com/embed/${project.link}?autoplay=1"
                 title="${project.title}"
-                allow="accelerometer; autoplay; encrypted-media"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen>
             </iframe>
         `;
     });
 }
 
+function navigateSlide(direction) {
+    currentIndex = (currentIndex + direction + projects.length) % projects.length;
+    updateViewWithRotationReset();
+}
+
+function updateViewWithRotationReset() {
+    stopRotation();
+    renderSlide();
+    startRotation();
+}
+
+function renderSlide() {
+    const project = projects[currentIndex];
+    if (!project) return;
+
+    ui.slide.style.animation = 'none';
+    ui.slide.offsetHeight; // Forces element re-flow state calculation 
+    ui.slide.style.animation = 'filmFade .4s ease';
+    ui.thumbnail.innerHTML = `
+        <img src="https://i.ytimg.com/vi/${project.link}/maxresdefault.jpg" alt="${project.title}">
+        <button class="film-play-button"><span></span></button>
+    `;
+
+    ui.title.textContent = project.title;
+    ui.networkYear.textContent = `${project.network} • ${project.year}`;
+    ui.role.textContent = project.role;
+
+    ui.dotsContainer.querySelectorAll('.film-dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+    });
+}
+
 function nextSlide() {
-    currentIndex++;
-
-    if (currentIndex >= projects.length) {
-        currentIndex = 0;
-    }
-
+    currentIndex = (currentIndex + 1) % projects.length;
     renderSlide();
 }
 
