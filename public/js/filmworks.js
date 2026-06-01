@@ -16,7 +16,7 @@ const ui = {
 
 async function loadProjects() {
     try {
-        const response = await fetch('/filmworks/filmworks.json');
+        const response = await fetch('/data/filmworks.json');
         if (!response.ok) throw new Error('Data endpoint unreachable');
         
         projects = await response.json();
