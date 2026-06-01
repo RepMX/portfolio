@@ -15,6 +15,12 @@
     .film-arrow {
         margin: 0 -20px;
     }
+}
+
+@media (min-width: 700px) {
+    .film-arrow {
+        margin: 0 -8px;
+    }
     .film-arrow-prev:hover {
         transform: translateY(-50%) translateX(-2px);
     }
