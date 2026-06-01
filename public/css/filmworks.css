@@ -21,10 +21,22 @@
     gap: 16px;
 }
 
-@keyframes filmFade {
+/* FIX: Split original single timeline configuration into directional pairs */
+@keyframes filmFadeRight {
     from {
         opacity: 0;
         transform: translateX(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes filmFadeLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
     }
     to {
         opacity: 1;
@@ -44,7 +56,7 @@
     background-color: #000;
     overflow: hidden;
     cursor: pointer;
-    animation: filmFade .4s ease;
+    /* Base configuration animation assignments are now applied dynamically inside JS */
 }
 
 .film-thumbnail img,
@@ -142,11 +154,10 @@
 
 .film-meta {
     text-align: center;
-    animation: filmFade .4s ease;
 }
 
 .film-meta h2 {
-    margin: 8 0 8px;
+    margin: 8px 0 8px; /* Corrected syntax definition framework mapping */
 }
 
 .film-network-year {

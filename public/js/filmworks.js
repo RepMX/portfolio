@@ -7,7 +7,7 @@ let autoRotate;
 // Cached UI element references
 const ui = {
     thumbnail: null,
-    meta: null, // Added to isolate text block animations
+    meta: null, 
     title: null,
     networkYear: null,
     role: null,
@@ -23,7 +23,7 @@ async function loadProjects() {
         if (projects.length === 0) return;
 
         initializeSliderMarkup();
-        renderSlide();
+        renderSlide('next'); // Initial slide slides in from the right
         startRotation();
     } catch (error) {
         console.error('Slider Initialization Failed:', error);
@@ -73,8 +73,10 @@ function initializeSliderMarkup() {
 
     ui.dotsContainer.querySelectorAll('.film-dot').forEach(dot => {
         dot.addEventListener('click', () => {
+            // Determine relative direction based on dot index matching
+            const direction = Number(dot.dataset.index) < currentIndex ? 'prev' : 'next';
             currentIndex = Number(dot.dataset.index);
-            updateViewWithRotationReset();
+            updateViewWithRotationReset(direction);
         });
     });
 
@@ -96,26 +98,30 @@ function initializeSliderMarkup() {
 
 function navigateSlide(direction) {
     currentIndex = (currentIndex + direction + projects.length) % projects.length;
-    updateViewWithRotationReset();
+    // Map -1 to 'prev' logic, Map 1 to 'next' logic
+    const directionString = direction === -1 ? 'prev' : 'next';
+    updateViewWithRotationReset(directionString);
 }
 
-function updateViewWithRotationReset() {
+function updateViewWithRotationReset(direction) {
     stopRotation();
-    renderSlide();
+    renderSlide(direction);
     startRotation();
 }
 
-function renderSlide() {
+function renderSlide(direction = 'next') {
     const project = projects[currentIndex];
     if (!project) return;
 
-    // FIX: Reset animation ONLY on changing content (Thumbnail & Meta)
+    // FIX: Dynamically switch animation names based on slider direction context
+    const animationName = direction === 'prev' ? 'filmFadeLeft' : 'filmFadeRight';
+
     ui.thumbnail.style.animation = 'none';
     ui.meta.style.animation = 'none';
     ui.thumbnail.offsetHeight; // Trigger DOM reflow to re-verify animation states
     ui.meta.offsetHeight;
-    ui.thumbnail.style.animation = 'filmFade .4s ease';
-    ui.meta.style.animation = 'filmFade .4s ease';
+    ui.thumbnail.style.animation = `${animationName} .4s ease`;
+    ui.meta.style.animation = `${animationName} .4s ease`;
 
     // Swap structural layout assets seamlessly inside the locked container
     ui.thumbnail.innerHTML = `
@@ -135,7 +141,7 @@ function renderSlide() {
 
 function nextSlide() {
     currentIndex = (currentIndex + 1) % projects.length;
-    renderSlide();
+    renderSlide('next'); // Auto rotation always moves forward / right
 }
 
 function startRotation() {
