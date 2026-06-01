@@ -7,6 +7,12 @@
     width: calc(100%);
 }
 
+@media (min-width: 700px) {
+    .film-arrow {
+        margin: 0 -20px;
+    }
+}
+
 .filmworks-slider {
     width: 70%; 
     max-width: 1400px; 
