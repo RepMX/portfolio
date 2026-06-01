@@ -20,16 +20,21 @@ function renderSlide() {
             <div class="film-thumbnail"
                  data-video="${project.link}">
                 <img
-                    src="https://i.ytimg.com/vi/${project.link}/hqdefault.jpg"
+                    src="https://i.ytimg.com/vi/${project.link}/maxresdefault.jpg"
                     alt="${project.title}">
-                <button class="film-play-button">▶</button>
+                <button class="film-play-button">
+                    <span></span>
+                </button>
             </div>
 
             <div class="film-meta">
                 <h2>${project.title}</h2>
-                <div>${project.year}</div>
-                <div>${project.network}</div>
-                <div>${project.role}</div>
+                <div class="film-network-year">
+                    ${project.network} • ${project.year}
+                </div>
+                <div class="film-role">
+                    ${project.role}
+                </div>
             </div>
         </div>
     `;

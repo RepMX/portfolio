@@ -18,7 +18,9 @@
 .film-thumbnail img,
 .film-thumbnail iframe {
     width: 100%;
+    height: 100%;
     aspect-ratio: 16 / 9;
+    object-fit: cover;
     border: 0;
     display: block;
 }
@@ -27,12 +29,28 @@
     position: absolute;
     inset: 0;
     margin: auto;
+
     width: 72px;
     height: 72px;
+
     border: 0;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.film-play-button span {
+    width: 0;
+    height: 0;
+
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 20px solid white;
+
+    margin-left: 4px;
 }
 
 .film-meta {
@@ -40,5 +58,13 @@
 }
 
 .film-meta h2 {
-    margin-bottom: 8px;
+    margin: 0 0 8px;
+}
+
+.film-network-year {
+    margin-bottom: 10px;
+}
+
+.film-role {
+    color: #212121;
 }
